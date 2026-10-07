@@ -96,3 +96,8 @@ location / {
 - 生成随机密码盐
   - `UserService::generateHash()`
   - return [string]32 位随机字符串
+
+## 后台工具类 [app/Filament/Concerns/AdminTool.php]
+- 获取管理员等级键名
+  - `AdminTool::levelName( [int]管理员等级 )`
+  - return [string]等级名称，低于所有门槛或无有效配置时返回空字符串

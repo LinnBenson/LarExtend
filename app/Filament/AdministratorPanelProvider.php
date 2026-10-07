@@ -85,9 +85,11 @@ class AdministratorPanelProvider extends PanelProvider {
      * 注册后台资源
      * @return void
      */
-    public function boot(): void {
+    public function register(): void {
         $this->loadViewsFrom( app_path( 'Filament/Views' ), 'Filament' );
         $this->loadTranslationsFrom( app_path( 'Filament/Lang' ), 'admin' );
+        $this->mergeConfigFrom( app_path( 'Filament/Config/admin_level.php' ), 'admin_level' );
+        parent::register();
     }
 
 }
