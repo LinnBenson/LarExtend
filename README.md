@@ -7,11 +7,9 @@
    - `cp .env.example .env`
 4. 生成应用密钥
    - `php artisan key:generate`
-5. 清除可能存在的缓存
-   - `php artisan optimize:clear`
-6. 运行数据库迁移和数据填充
+5. 运行数据库迁移和数据填充
    - `php artisan migrate --seed`
-7. 创建公开存储目录链接
+6. 创建公开存储目录链接
    - `php artisan storage:link`
    - 用于访问管理员头像、用户头像及其它存储在 `public` 磁盘中的文件
 
@@ -70,12 +68,6 @@ location / {
 - 根据字段名获取用户表字段对应的备注
   - `User::field( [string]字段名 )`
   - return [string]字段备注
-- 生成随机邀请码
-  - `User::generateInvite()`
-  - return [string]8 位大写十六进制邀请码
-- 生成随机密码盐
-  - `User::generateHash()`
-  - return [string]32 位随机字符串
 
 ## 用户服务类 [app/Services/UserService.php]
 - 生成随机邀请码
