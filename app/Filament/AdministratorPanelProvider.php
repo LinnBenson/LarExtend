@@ -41,6 +41,8 @@ class AdministratorPanelProvider extends PanelProvider {
             ->path( config( 'filament.path', 'admin' ) )
             ->authGuard( 'admin' )
             ->login( Login::class )
+            ->databaseNotifications()
+            ->databaseNotificationsPolling( '0s' )
             ->colors([
                 'primary' => Color::Blue,
             ])

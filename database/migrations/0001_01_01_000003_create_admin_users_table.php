@@ -24,6 +24,17 @@ return new class extends Migration {
             $table->timestamp( 'created_at' )->nullable()->comment( '创建时间' );
             $table->timestamp( 'updated_at' )->nullable()->comment( '更新时间' );
         });
+        Schema::create( 'notifications', function( Blueprint $table ) {
+            $table->uuid( 'id' )->primary()->comment( '通知ID' );
+            $table->string( 'type' )->comment( '通知类型' );
+            $table->string( 'notifiable_type' )->comment( '通知接收者模型类型' );
+            $table->unsignedBigInteger( 'notifiable_id' )->comment( '通知接收者ID' );
+            $table->index( ['notifiable_type', 'notifiable_id'] );
+            $table->text( 'data' )->comment( '通知数据（JSON格式）' );
+            $table->timestamp( 'read_at' )->nullable()->comment( '已读时间' );
+            $table->timestamp( 'created_at' )->nullable()->comment( '创建时间' );
+            $table->timestamp( 'updated_at' )->nullable()->comment( '更新时间' );
+        });
         $this->insert();
     }
 
@@ -48,5 +59,6 @@ return new class extends Migration {
      */
     public function down(): void {
         Schema::dropIfExists('admin_users');
+        Schema::dropIfExists('notifications');
     }
 };
