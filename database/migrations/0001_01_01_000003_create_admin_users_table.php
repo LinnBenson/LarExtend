@@ -43,12 +43,12 @@ return new class extends Migration {
      */
     public function insert(): void {
         DB::statement( 'ALTER TABLE `'.DB::getTablePrefix().'admin_users` AUTO_INCREMENT = 3015;' );
-        DB::table('admin_users')->insert([
+        DB::table( 'admin_users' )->insert([
             'name' => 'Administrator',
             'email' => 'admin@admin.com',
             'status' => true,
             'level' => 99999,
-            'password' => Hash::make('admin'),
+            'password' => Hash::make( 'admin' ),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
