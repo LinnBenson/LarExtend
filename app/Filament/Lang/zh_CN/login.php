@@ -1,8 +1,5 @@
 <?php
 return [
-    'error' => [
-        'disabled' => '此账户已被管理员禁用。',
-    ],
     'v0' => [
         'brand_intro' => '品牌介绍',
         'caption_first' => '让每一份专注，',

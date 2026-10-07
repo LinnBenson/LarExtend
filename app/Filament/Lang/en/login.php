@@ -1,9 +1,6 @@
 <?php
 
 return [
-    'error' => [
-        'disabled' => 'This account has been disabled by an administrator.',
-    ],
     'v0' => [
         'brand_intro' => 'Brand introduction',
         'caption_first' => 'Turn your focus',
