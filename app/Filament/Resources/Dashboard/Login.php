@@ -14,6 +14,7 @@ use Illuminate\Validation\ValidationException;
  * @package App\Filament\Resources\Dashboard\Login
  */
 class Login extends \Filament\Auth\Pages\Login {
+
     /**
      * 获取登录视图。
      * 根据 filament.login 配置选择登录页面模板。
@@ -63,4 +64,5 @@ class Login extends \Filament\Auth\Pages\Login {
      * @return bool 是否显示默认品牌标识
      */
     public function hasLogo(): bool { return false; }
+
 }
