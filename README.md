@@ -76,3 +76,11 @@ location / {
 - 生成随机密码盐
   - `User::generateHash()`
   - return [string]32 位随机字符串
+
+## 用户服务类 [app/Services/UserService.php]
+- 生成随机邀请码
+  - `UserService::generateInvite()`
+  - return [string]8 位大写十六进制邀请码
+- 生成随机密码盐
+  - `UserService::generateHash()`
+  - return [string]32 位随机字符串
