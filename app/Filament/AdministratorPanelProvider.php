@@ -36,7 +36,7 @@ class AdministratorPanelProvider extends PanelProvider {
             ->default()
             ->id( 'administrator' )
             ->brandName( 'Admin Dashboard' )
-            ->path( config( 'admin.path', 'admin' ) )
+            ->path( config( 'filament.path', 'admin' ) )
             ->authGuard( 'admin' )
             ->login()
             ->colors([
@@ -66,6 +66,15 @@ class AdministratorPanelProvider extends PanelProvider {
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    /**
+     * 注册后台
+     * @return void
+     */
+    public function register(): void {
+        parent::register();
+        $this->mergeConfigFrom( app_path( 'Filament/config.php' ), 'filament' );
     }
 
 }

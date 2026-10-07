@@ -82,6 +82,12 @@ location / {
 - 根据字段名获取管理员用户表字段对应的备注
   - `AdminUser::field( [string]字段名 )`
   - return [string]字段备注
+- 获取管理员用户头像地址
+  - `$adminUser->getFilamentAvatarUrl()`
+  - return [string|null]头像地址
+- 判断管理员用户是否可以访问 Filament 面板
+  - `$adminUser->canAccessPanel( [Panel]Filament 面板 )`
+  - return [bool]是否允许访问
 
 ## 用户服务类 [app/Services/UserService.php]
 - 生成随机邀请码

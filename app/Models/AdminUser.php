@@ -84,4 +84,25 @@ class AdminUser extends Authenticatable implements FilamentUser, HasAvatar {
         return self::FIELD_COMMENTS[$field] ?? '';
     }
 
+    /**
+     * 获取 Filament 头像地址。
+     * 返回当前管理员上传的头像公开访问地址。
+     * @return string|null 头像地址
+     */
+    public function getFilamentAvatarUrl(): ?string {
+        if ( blank( $this->avatar ) ) { return null; }
+        if ( ! Storage::disk( 'public' )->exists( $this->avatar ) ) { return null; }
+        return Storage::disk( 'public' )->url( $this->avatar );
+    }
+
+    /**
+     * 判断是否可以访问 Filament 面板。
+     * 只允许启用状态的管理员用户访问后台面板。
+     * @param Panel $panel Filament 面板
+     * @return bool 是否允许访问
+     */
+    public function canAccessPanel( Panel $panel ): bool {
+        return $this->status === true;
+    }
+
 }
