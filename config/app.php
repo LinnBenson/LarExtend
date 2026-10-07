@@ -1,126 +1,60 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Name
-    |--------------------------------------------------------------------------
-    |
-    | This value is the name of your application, which will be used when the
-    | framework needs to place the application's name in a notification or
-    | other UI elements where an application name needs to be displayed.
-    |
-    */
-
-    'name' => env('APP_NAME', 'Laravel'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Environment
-    |--------------------------------------------------------------------------
-    |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services the application utilizes. Set this in your ".env" file.
-    |
-    */
-
-    'env' => env('APP_ENV', 'production'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Debug Mode
-    |--------------------------------------------------------------------------
-    |
-    | When your application is in debug mode, detailed error messages with
-    | stack traces will be shown on every error that occurs within your
-    | application. If disabled, a simple generic error page is shown.
-    |
-    */
-
-    'debug' => (bool) env('APP_DEBUG', false),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application URL
-    |--------------------------------------------------------------------------
-    |
-    | This URL is used by the console to properly generate URLs when using
-    | the Artisan command line tool. You should set this to the root of
-    | the application so that it's available within Artisan commands.
-    |
-    */
-
-    'url' => env('APP_URL', 'http://localhost'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Timezone
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. The timezone
-    | is set to "UTC" by default as it is suitable for most use cases.
-    |
-    */
-
-    'timezone' => 'UTC',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Locale Configuration
-    |--------------------------------------------------------------------------
-    |
-    | The application locale determines the default locale that will be used
-    | by Laravel's translation / localization methods. This option can be
-    | set to any locale for which you plan to have translation strings.
-    |
-    */
-
-    'locale' => env('APP_LOCALE', 'en'),
-
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
-
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Encryption Key
-    |--------------------------------------------------------------------------
-    |
-    | This key is utilized by Laravel's encryption services and should be set
-    | to a random, 32 character string to ensure that all encrypted values
-    | are secure. You should do this prior to deploying the application.
-    |
-    */
-
+    /**
+     * 应用名称
+     * 这个值是应用名称，框架在通知或其他需要显示应用名称的界面元素中会使用它。
+     */
+    'name' => env( 'APP_NAME', 'Laravel' ),
+    /**
+     * 应用环境
+     * 这个值决定应用当前运行的环境，并影响应用中各种服务的配置方式。请在 ".env" 文件中设置。
+     */
+    'env' => env( 'APP_ENV', 'production' ),
+    /**
+     * 应用调试模式
+     * 应用处于调试模式时，发生错误会显示带堆栈跟踪的详细错误信息。关闭后只会显示简单的通用错误页。
+     */
+    'debug' => (bool) env( 'APP_DEBUG', false ),
+    /**
+     * 应用地址
+     * 控制台使用 Artisan 命令生成 URL 时会用到这个地址。应设置为应用的根地址，方便 Artisan 命令使用。
+     */
+    'url' => env( 'APP_URL', 'http://localhost' ),
+    /**
+     * 应用时区
+     * 这里可以指定应用默认时区，PHP 日期和日期时间函数会使用它。默认时区是 "UTC"，适合大多数使用场景。
+     */
+    'timezone' => env( 'APP_TIMEZONE', 'UTC' ),
+    /**
+     * 应用语言配置
+     * 应用语言决定 Laravel 翻译和本地化方法默认使用的语言。可以设置为你计划提供翻译字符串的任意语言。
+     */
+    'locale' => env( 'APP_LOCALE', 'en' ),
+    'locales' => [
+        'en' => 'English',
+        'zh_CN' => '简体中文',
+    ],
+    'fallback_locale' => env( 'APP_FALLBACK_LOCALE', 'en' ),
+    'faker_locale' => env( 'APP_FAKER_LOCALE', 'en_US' ),
+    /**
+     * 加密密钥
+     * Laravel 加密服务会使用此密钥。应在部署应用前将其设置为随机的 32 字符字符串，以确保加密数据的安全。
+     */
     'cipher' => 'AES-256-CBC',
-
-    'key' => env('APP_KEY'),
-
+    'key' => env( 'APP_KEY' ),
     'previous_keys' => [
         ...array_filter(
-            explode(',', (string) env('APP_PREVIOUS_KEYS', ''))
+            explode( ',', (string) env( 'APP_PREVIOUS_KEYS', '' ) )
         ),
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Maintenance Mode Driver
-    |--------------------------------------------------------------------------
-    |
-    | These configuration options determine the driver used to determine and
-    | manage Laravel's "maintenance mode" status. The "cache" driver will
-    | allow maintenance mode to be controlled across multiple machines.
-    |
-    | Supported drivers: "file", "cache"
-    |
-    */
-
+    /**
+     * 维护模式驱动
+     * 这些选项决定 Laravel 用于判断和管理维护模式状态的驱动。使用 "cache" 驱动可以在多台机器之间统一控制维护模式。
+     * 支持的驱动："file"、"cache"。
+     */
     'maintenance' => [
-        'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-        'store' => env('APP_MAINTENANCE_STORE', 'database'),
+        'driver' => env( 'APP_MAINTENANCE_DRIVER', 'file' ),
+        'store' => env( 'APP_MAINTENANCE_STORE', 'database' ),
     ],
-
 ];
