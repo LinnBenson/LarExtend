@@ -18,6 +18,9 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\HtmlString;
+use App\Filament\Resources\Dashboard\Login\Login;
 
 /**
  * Filament 后台面板服务提供器。
@@ -32,21 +35,24 @@ class AdministratorPanelProvider extends PanelProvider {
      * @return Panel Filament 面板
      */
     public function panel( Panel $panel ): Panel {
-        return $panel
-            ->default()
+        $panel->default()
             ->id( 'administrator' )
             ->brandName( 'Admin Dashboard' )
             ->path( config( 'filament.path', 'admin' ) )
             ->authGuard( 'admin' )
-            ->login()
+            ->login( Login::class )
             ->colors([
                 'primary' => Color::Blue,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->discoverResources(in: app_path( 'Filament/Resources'), for: 'App\Filament\Resources' )
+            ->discoverPages(in: app_path( 'Filament/Pages'), for: 'App\Filament\Pages' )
             ->pages([
                 Dashboard::class,
             ])
+            ->navigationGroups( array_map(
+                static fn ( string $group ): string => __( $group ),
+                config( 'filament.navigation_groups', [] )
+            ))
             ->discoverWidgets(in: app_path( 'Filament/Widgets' ), for: 'App\Filament\Widgets' )
             ->widgets([
                 AccountWidget::class,
@@ -65,16 +71,21 @@ class AdministratorPanelProvider extends PanelProvider {
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): HtmlString => new HtmlString( '<link rel="stylesheet" href="'.asset( config( 'filament.assets_path' ).'/css/global.css' ).'">' )
+            );
+        return $panel;
     }
 
     /**
-     * 注册后台
+     * 注册后台资源
      * @return void
      */
-    public function register(): void {
-        parent::register();
-        $this->mergeConfigFrom( app_path( 'Filament/config.php' ), 'filament' );
+    public function boot(): void {
+        $this->loadViewsFrom( app_path( 'Filament/Views' ), 'Filament' );
+        $this->loadTranslationsFrom( app_path( 'Filament/Lang' ), 'admin' );
     }
 
 }
