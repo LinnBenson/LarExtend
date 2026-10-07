@@ -15,6 +15,12 @@
 
 # 伪静态部署
 ```
+location ^~ /internal- {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+location ^~ /livewire- {
+    try_files $uri $uri/ /index.php?$query_string;
+}
 location / {
     try_files $uri $uri/ /index.php?$query_string;
 }
@@ -67,6 +73,14 @@ location / {
   - return [array]字段备注列表
 - 根据字段名获取用户表字段对应的备注
   - `User::field( [string]字段名 )`
+  - return [string]字段备注
+
+## 管理员用户模型 [app/Models/AdminUser.php]
+- 获取管理员用户表所有字段对应的备注
+  - `AdminUser::fields()`
+  - return [array]字段备注列表
+- 根据字段名获取管理员用户表字段对应的备注
+  - `AdminUser::field( [string]字段名 )`
   - return [string]字段备注
 
 ## 用户服务类 [app/Services/UserService.php]

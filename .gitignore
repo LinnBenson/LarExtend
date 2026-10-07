@@ -14,3 +14,7 @@ package-lock.json
 /vendor
 /node_modules
 /update_tmp/
+
+/public/css/filament
+/public/fonts/filament
+/public/js/filament
