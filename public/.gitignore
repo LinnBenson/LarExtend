@@ -1,0 +1,6 @@
+*
+!/assets/
+!/assets/**
+!favicon.ico
+!index.php
+!.gitignore

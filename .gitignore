@@ -1,0 +1,16 @@
+*.log
+.DS_Store
+.env
+.env.backup
+.htaccess
+.user.ini
+.phpunit.result.cache
+.well-known
+composer.lock
+package-lock.json
+/.phpunit.cache
+/.vscode
+/storage/*.key
+/vendor
+/node_modules
+/update_tmp/
