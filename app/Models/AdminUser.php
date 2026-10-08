@@ -17,6 +17,18 @@ class AdminUser extends Authenticatable implements FilamentUser, HasAvatar {
     use Notifiable;
 
     /**
+     * 用户权限映射
+     * @var array<string, init>
+     */
+    public const LEVELS = [
+        'ordinary' => 1,
+        'service' => 1000,
+        'agent' => 10000,
+        'manage' => 90000,
+        'administrator' => 99990
+    ];
+
+    /**
      * 可以批量赋值的属性
      * @var list<string>
      */
@@ -51,6 +63,20 @@ class AdminUser extends Authenticatable implements FilamentUser, HasAvatar {
     }
 
     /**
+     * 序列化时附加的属性
+     * @var list<string>
+     */
+    protected $appends = [ 'grade' ];
+
+    /**
+     * 获取用户级别名称
+     * @return string 级别名称
+     */
+    public function getGradeAttribute(): string {
+        return self::getLevel( $this->level ?? 0 );
+    }
+
+    /**
      * 获取 Filament 头像地址。
      * 返回当前管理员上传的头像公开访问地址。
      * @return string|null 头像地址
@@ -68,9 +94,37 @@ class AdminUser extends Authenticatable implements FilamentUser, HasAvatar {
      * @return bool 是否允许访问
      */
     public function canAccessPanel( Panel $panel ): bool {
-        $minimumLevel = config( 'admin_level.levels.Ordinary' );
+        $minimumLevel = self::LEVELS['ordinary'];
         if ( !is_int( $minimumLevel ) || $minimumLevel < 1 ) { return false; }
         return $this->status === true && $this->level >= $minimumLevel;
+    }
+
+    /**
+     * 判断是否为管理员
+     * @param Panel $panel Filament 面板
+     * @return bool 是否允许访问
+     */
+    public function canManagePanel( Panel $panel ): bool {
+        $minimumLevel = self::LEVELS['manage'];
+        if ( !is_int( $minimumLevel ) || $minimumLevel < 1 ) { return false; }
+        return $this->status === true && $this->level >= $minimumLevel;
+    }
+
+    /**
+     * 获取用户等级
+     * 不传等级时返回全部配置，传入等级时按最接近的上限返回名称。
+     * @param int|string|null $level 用户等级
+     * @return array|string 等级列表或等级名称
+     */
+    public static function getLevel( int|string|null $level = null ): array|string {
+        if ( $level === null ) { return self::LEVELS; }
+        $level = is_string( $level ) ? trim( $level ) : $level;
+        $level = filter_var( $level, FILTER_VALIDATE_INT );
+        if ( $level === false || $level < 0 ) { return 'Unknown'; }
+        foreach ( array_reverse( self::LEVELS, true ) as $name => $maximumLevel ) {
+            if ( $level >= $maximumLevel ) { return $name; }
+        }
+        return 'Unknown';
     }
 
 }

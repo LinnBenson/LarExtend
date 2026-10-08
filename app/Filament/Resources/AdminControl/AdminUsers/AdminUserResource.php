@@ -21,7 +21,7 @@ class AdminUserResource extends Resource {
     use HasNavigationLevel;
 
     // 权限键名
-    protected static string $navigationPermission = 'Ordinary';
+    protected static string $navigationPermission = 'ordinary';
 
     // 关联的型类
     protected static ?string $model = AdminUser::class;

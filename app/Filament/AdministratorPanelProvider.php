@@ -88,7 +88,6 @@ class AdministratorPanelProvider extends PanelProvider {
     public function register(): void {
         $this->loadViewsFrom( app_path( 'Filament/Views' ), 'Filament' );
         $this->loadTranslationsFrom( app_path( 'Filament/Lang' ), 'admin' );
-        $this->mergeConfigFrom( app_path( 'Filament/Config/admin_level.php' ), 'admin_level' );
         parent::register();
     }
 

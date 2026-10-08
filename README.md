@@ -70,12 +70,21 @@ location / {
   - return [array]包含 uid、username、nickname、avatar、level 的用户信息
 
 ## 管理员用户模型 [app/Models/AdminUser.php]
+- 根据等级获取等级名称映射
+  - `AdminUser::getLevel( [int|string]管理员等级 )`
+  - return [string]等级名称，无效输入返回 `Unknown`；
+- 获取管理员等级名称属性
+  - `$adminUser->grade` 或 `$adminUser->getGradeAttribute()`
+  - return [string]等级名称
 - 获取管理员用户头像地址
   - `$adminUser->getFilamentAvatarUrl()`
   - return [string|null]头像地址
 - 判断管理员用户是否可以访问 Filament 面板
   - `$adminUser->canAccessPanel( [Panel]Filament 面板 )`
   - return [bool]是否允许访问
+- 判断管理员用户是否达到后台管理等级
+  - `$adminUser->canManagePanel( [Panel]Filament 面板 )`
+  - return [bool]是否达到管理等级
 
 ## 用户服务类 [app/Services/UserService.php]
 - 生成随机邀请码
