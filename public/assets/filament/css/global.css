@@ -1,0 +1,18 @@
+.fi-sidebar-nav {
+    background-color: var(--color-white);
+    border-right: 1px solid var(--gray-200);
+}
+.fi-sidebar-nav:where(.dark,.dark *) {
+    background-color: var(--gray-900);
+    border-right: 1px solid var(--gray-700);
+}
+.fi-sidebar-nav .fi-sidebar-nav-groups {
+    row-gap: calc(var(--spacing) * 3);
+}
+
+/* 桌面端侧边栏宽度 */
+@media (min-width: 1024px) {
+    :root {
+        --sidebar-width: 15.75rem;
+    }
+}

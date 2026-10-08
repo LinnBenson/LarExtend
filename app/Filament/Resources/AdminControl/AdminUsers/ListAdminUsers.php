@@ -4,6 +4,7 @@ namespace App\Filament\Resources\AdminControl\AdminUsers;
 
 use Filament\Resources\Pages\ListRecords;
 use Filament\Actions\CreateAction;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * 管理员列表页面
@@ -17,7 +18,7 @@ class ListAdminUsers extends ListRecords {
      * @return array<CreateAction> 头部操作
      */
     protected function getHeaderActions(): array {
-        return [CreateAction::make()->label( __( 'admin::AdminControl.AdminUsers.actions.create' ) )];
+        return [CreateAction::make()->label( __( 'admin::AdminControl.AdminUsers.actions.create' ) )->icon( Heroicon::OutlinedPlus )];
     }
 
     /**

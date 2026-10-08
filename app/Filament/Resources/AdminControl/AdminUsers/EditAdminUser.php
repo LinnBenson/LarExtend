@@ -6,6 +6,7 @@ use App\Models\AdminUser;
 use Filament\Actions\DeleteAction;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 /**
  * EditAdminUser
@@ -42,7 +43,7 @@ class EditAdminUser extends EditRecord {
      */
     protected function getHeaderActions(): array {
         return [
-            DeleteAction::make()->databaseTransaction()->label( __( 'admin::AdminControl.AdminUsers.actions.delete' ) ),
+            DeleteAction::make()->databaseTransaction()->label( __( 'admin::AdminControl.AdminUsers.actions.delete' ) )->icon( Heroicon::OutlinedMinusCircle ),
         ];
     }
 }
