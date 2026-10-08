@@ -2,6 +2,10 @@
 
 return [
     'AdminUsers' => [
+        'filters' => ['level_range' => '权限区间', 'all_levels' => '全部权限'],
+        'sections' => ['basic' => '基本信息', 'avatar' => '头像设置'],
+        'actions' => ['title' => '操作', 'create' => '新增管理员', 'edit' => '编辑', 'delete' => '删除'],
+        'level_max' => '级别必须低于当前管理员级别。',
         'title' => '管理员列表',
         'model' => '管理员',
         'enabled' => '启用',
@@ -15,7 +19,7 @@ return [
         'fields' => [
             'avatar' => '头像',
             'password' => '密码',
-            'id' => '管理员ID',
+            'id' => 'UID',
             'name' => '用户名',
             'email' => '邮箱',
             'status' => '状态',

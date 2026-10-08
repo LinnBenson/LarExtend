@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\AdminControl\AdminUsers;
 
-use App\Filament\Resources\AdminControl\AdminUsers\AdminUserResource;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Actions\CreateAction;
 
 /**
  * 管理员列表页面
@@ -11,6 +11,14 @@ use Filament\Resources\Pages\ListRecords;
  */
 class ListAdminUsers extends ListRecords {
     protected static string $resource = AdminUserResource::class;
+
+    /**
+     * 获取新增管理员操作。
+     * @return array<CreateAction> 头部操作
+     */
+    protected function getHeaderActions(): array {
+        return [CreateAction::make()->label( __( 'admin::AdminControl.AdminUsers.actions.create' ) )];
+    }
 
     /**
      * 校验列表访问权限

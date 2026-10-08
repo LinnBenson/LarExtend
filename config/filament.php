@@ -12,6 +12,7 @@ return [
     'login' => 'Filament::Dashboard.Login.login_v0',
     // 后台菜单分组
     'navigation_groups' => [
-        'admin::frame.groups.admin'
+        'admin::frame.groups.admin',
+        'admin::frame.groups.developer'
     ]
 ];

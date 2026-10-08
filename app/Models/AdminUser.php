@@ -101,10 +101,9 @@ class AdminUser extends Authenticatable implements FilamentUser, HasAvatar {
 
     /**
      * 判断是否为管理员
-     * @param Panel $panel Filament 面板
      * @return bool 是否允许访问
      */
-    public function canManagePanel( Panel $panel ): bool {
+    public function canManage(): bool {
         $minimumLevel = self::LEVELS['manage'];
         if ( !is_int( $minimumLevel ) || $minimumLevel < 1 ) { return false; }
         return $this->status === true && $this->level >= $minimumLevel;

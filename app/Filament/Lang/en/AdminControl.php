@@ -2,6 +2,11 @@
 
 return [
     'AdminUsers' => [
+        'filters' => ['level_range' => 'Permission range', 'all_levels' => 'All permissions'],
+        'sections' => ['basic' => 'Basic information', 'avatar' => 'Avatar settings'],
+        'actions' => ['title' => 'Actions', 'create' => 'Create administrator', 'edit' => 'Edit', 'delete' => 'Delete'],
+        'level_max' => 'The level must be lower than your administrator level.',
+        'editStatus' => ['success' => 'Administrator status updated', 'body' => 'Administrator :name is now :status.'],
         'title' => 'Administrators',
         'model' => 'Administrator',
         'enabled' => 'Enabled',

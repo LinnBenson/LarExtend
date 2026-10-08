@@ -83,7 +83,7 @@ location / {
   - `$adminUser->canAccessPanel( [Panel]Filament 面板 )`
   - return [bool]是否允许访问
 - 判断管理员用户是否达到后台管理等级
-  - `$adminUser->canManagePanel( [Panel]Filament 面板 )`
+  - `$adminUser->canManage()`
   - return [bool]是否达到管理等级
 
 ## 用户服务类 [app/Services/UserService.php]
