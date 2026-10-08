@@ -1,7 +1,7 @@
 <?php
 return [
-    // 代理等级值
-    'agent' => 10000,
+    // 管理等级值
+    'manage' => 90000,
     // 权限划分
     'levels' => [
         'Ordinary' => 1,

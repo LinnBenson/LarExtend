@@ -19,27 +19,6 @@ class User extends Authenticatable {
     protected $primaryKey = 'uid';
 
     /**
-     * 用户字段备注
-     * @var array<string, string>
-     */
-    public const FIELD_COMMENTS = [
-        'uid' => '用户 UID',
-        'agent' => '上级代理',
-        'username' => '用户名',
-        'email' => '邮箱',
-        'phone' => '手机号',
-        'nickname' => '昵称',
-        'password' => '登录密码',
-        'avatar' => '头像',
-        'level' => '级别',
-        'status' => '状态：1启用，0禁用',
-        'invite' => '邀请码',
-        'hash' => '密码盐',
-        'created_at' => '创建时间',
-        'updated_at' => '更新时间',
-    ];
-
-    /**
      * 可以批量赋值的属性
      * 调用方需先验证输入，代理、权限、状态、邀请码和密码盐由服务端单独赋值。
      * @var list<string>
@@ -90,23 +69,6 @@ class User extends Authenticatable {
             'avatar' => $this->avatar,
             'level' => $this->level,
         ];
-    }
-
-    /**
-     * 获取用户表所有字段对应的备注
-     * @return array<string, string> 字段备注列表
-     */
-    public static function fields(): array {
-        return self::FIELD_COMMENTS;
-    }
-
-    /**
-     * 根据字段名获取用户表字段对应的备注
-     * @param string $field 字段名
-     * @return string 字段备注
-     */
-    public static function field( string $field ): string {
-        return self::FIELD_COMMENTS[$field] ?? '';
     }
 
 }

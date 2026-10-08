@@ -87,4 +87,5 @@ class AdminUserResource extends Resource {
 
     // 导航排序
     protected static ?int $navigationSort = 10;
+
 }
