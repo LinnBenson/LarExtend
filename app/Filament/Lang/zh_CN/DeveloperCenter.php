@@ -1,0 +1,46 @@
+<?php
+
+return [
+    'FilamentIcons' => [
+        'title' => 'Filament 图标库',
+        'heading' => 'Filament Heroicon',
+        'description' => '显示当前 Filament 版本提供的全部 Heroicon 图标。',
+        'search' => '搜索图标名称或值',
+        'count' => '共 :count 个图标',
+        'empty' => '没有找到匹配的图标',
+        'copy' => '点击复制 :value',
+        'copied' => '已复制',
+        'copy_failed' => '复制失败，请手动复制',
+        'styles' => ['all' => '全部', 'outline' => '描边', 'solid' => '实心'],
+    ],
+    'RouteInformation' => [
+        'title' => '路由信息',
+        'heading' => '系统路由',
+        'description' => '展示当前应用已注册的请求方法、URI、名称、处理器和中间件。',
+        'search' => '搜索 URI、名称、处理器或中间件',
+        'method_filter' => '按请求方法筛选',
+        'all_methods' => '全部方法',
+        'source_missing' => '无法定位来源文件',
+        'empty' => '没有找到匹配的路由。',
+        'middleware_count' => ':count 项',
+        'stats' => [
+            'total' => '路由总数',
+            'named' => '命名路由',
+            'filtered' => '当前结果',
+        ],
+        'fields' => [
+            'name' => '路由名称',
+            'method' => '方法',
+            'uri' => '域名 / URI',
+            'action' => '处理器',
+            'middleware' => '中间件',
+            'source' => '来源文件',
+        ],
+        'sources' => [
+            'dynamic' => '动态注册',
+            'closure' => '闭包路由',
+            'filament' => 'Filament 页面',
+            'controller' => '控制器路由',
+        ],
+    ],
+];

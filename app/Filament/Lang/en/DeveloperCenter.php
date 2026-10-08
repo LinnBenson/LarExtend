@@ -1,0 +1,46 @@
+<?php
+
+return [
+    'FilamentIcons' => [
+        'title' => 'Filament Icons',
+        'heading' => 'Filament Heroicon',
+        'description' => 'Browse all Heroicon icons available in the current Filament version.',
+        'search' => 'Search icon names or values',
+        'count' => ':count icons',
+        'empty' => 'No matching icons found',
+        'copy' => 'Copy :value',
+        'copied' => 'Copied',
+        'copy_failed' => 'Copy failed. Please copy manually.',
+        'styles' => ['all' => 'All', 'outline' => 'Outline', 'solid' => 'Solid'],
+    ],
+    'RouteInformation' => [
+        'title' => 'Route information',
+        'heading' => 'Application routes',
+        'description' => 'Browse registered request methods, URIs, names, handlers and middleware.',
+        'search' => 'Search URI, name, handler or middleware',
+        'method_filter' => 'Filter by request method',
+        'all_methods' => 'All methods',
+        'source_missing' => 'Source file unavailable',
+        'empty' => 'No matching routes found.',
+        'middleware_count' => ':count items',
+        'stats' => [
+            'total' => 'Total routes',
+            'named' => 'Named routes',
+            'filtered' => 'Current results',
+        ],
+        'fields' => [
+            'name' => 'Route name',
+            'method' => 'Method',
+            'uri' => 'Domain / URI',
+            'action' => 'Handler',
+            'middleware' => 'Middleware',
+            'source' => 'Source file',
+        ],
+        'sources' => [
+            'dynamic' => 'Dynamic registration',
+            'closure' => 'Closure route',
+            'filament' => 'Filament page',
+            'controller' => 'Controller route',
+        ],
+    ],
+];

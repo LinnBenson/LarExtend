@@ -21,6 +21,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
 use App\Filament\Resources\Dashboard\Login\Login;
+use App\Filament\Resources\DeveloperCenter\FilamentIcons\FilamentIcons;
+use App\Filament\Resources\DeveloperCenter\RouteInformation\RouteInformation;
 
 /**
  * Filament 后台面板服务提供器。
@@ -50,6 +52,8 @@ class AdministratorPanelProvider extends PanelProvider {
             ->discoverPages(in: app_path( 'Filament/Pages'), for: 'App\Filament\Pages' )
             ->pages([
                 Dashboard::class,
+                FilamentIcons::class,
+                RouteInformation::class,
             ])
             ->navigationGroups( array_map(
                 static fn ( string $group ): string => __( $group ),
