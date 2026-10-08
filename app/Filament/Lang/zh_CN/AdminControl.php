@@ -8,9 +8,10 @@ return [
         'disabled' => '禁用',
         'all_statuses' => '全部状态',
         'empty' => '暂无管理员',
-        'avatar_help' => '支持 JPG、PNG、WebP，最大 2 MB。',
-        'avatar_invalid' => '头像文件无效，请重新上传。',
-        'password_help' => '新增时必须填写至少12位密码；编辑时留空保持原密码。',
+        'editStatus' => [
+            'success' => '管理员状态修改成功',
+            'body' => '管理员 :name 已:status。',
+        ],
         'fields' => [
             'avatar' => '头像',
             'password' => '密码',
