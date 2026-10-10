@@ -51,4 +51,13 @@ class PluginServiceProvider {
         return data_get( $this->configs, $key, $default );
     }
 
+    /**
+     * 获取插件声明的权限列表
+     * @return array 返回插件的权限数组
+     */
+    public function getPermissions(): array {
+        $permissions = $this->package['permissions'] ?? [];
+        return is_array( $permissions ) ? $permissions : [];
+    }
+
 }

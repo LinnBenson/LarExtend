@@ -122,10 +122,22 @@ location / {
     "description": "插件描述", // [必需] 插件描述信息
     "source": "插件来源地址", // [可选] market|null|下载直链
     "rely_plugins": {}, // [可选] 依赖的其他插件
-    "rely_composers": { "laravel/framework": ">=12.0" } // [可选] 依赖的 Composer 包
+    "rely_composers": { "laravel/framework": ">=12.0" }, // [可选] 依赖的 Composer 包
+    "permissions": [] // [可选] 插件权限调用信息
   }
   ```
 - 插件返回类实例可创建 `boot` 公开方法，用于在插件加载后执行初始化逻辑，如果该方法返回 `false`，插件将被视为加载失败。
+- 插件权限声明
+  ```
+  APP_SERVICE_REGISTER_HOOK // 应用服务注册钩子，忽略返回值
+  APP_SERVICE_BOOT_HOOK // 应用服务启动钩子，忽略返回值
+  ADMINISTRATOR_PANEL_HOOK( Panel $panel ) // 管理员面板钩子，忽略返回值
+  ADMINISTRATOR_PANEL_REGISTER_HOOK // 管理员面板注册钩子，忽略返回值
+  API_ROUTE_REGISTRATION // API 路由注册，忽略返回值
+  WEB_ROUTE_REGISTRATION // WEB 路由注册，忽略返回值
+  CONSOLE_ROUTE_REGISTRATION // Console 路由注册，忽略返回值
+  DATABASE_SEEDER_HOOK // 数据库填充钩子，忽略返回值
+  ```
 
 ## 插件服务提供者 [app/Providers/PluginServiceProvider.php]
 - 插件 ID
@@ -137,6 +149,9 @@ location / {
 - 获取插件配置
   - `$this->config( [string]配置项键名 = '' , [mixed]默认值 = null )`
   - return [mixed]配置值，如果未传入键名则返回整个配置数组
+- 获取插件声明的权限
+  - `$this->getPermissions()`
+  - return [array]插件声明的权限列表
 
 ## 插件服务 [app/Services/PluginService.php]
 - 获取插件实例
@@ -148,3 +163,15 @@ location / {
 - 插件基础错误检查
   - `PluginService::checkBaseErrors( [string]插件基础路径 )`
   - return [array]返回检测到的错误列表
+- 注册插件权限
+  - `PluginService::registrationPermissions( [PluginServiceProvider]插件实例 )`
+  - return [bool]注册是否成功
+- 清理插件权限
+  - `PluginService::cleanUpPermissions()`
+  - return [bool]是否清理成功
+- 移除插件权限
+  - `PluginService::removePermissions( [PluginServiceProvider]插件实例 )`
+  - return [bool]移除是否成功
+- 执行插件钩子
+  - `PluginService::HookPlugin( [string]钩子名称, [array]传递给插件的数据 = [], [bool]是否收集所有插件的返回值 = false )`
+  - return [mixed]返回最后一个插件的返回值，或者收集所有插件的返回值（如果 $collect 为 true），失败时返回初始数据或空数组

@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Providers\PluginServiceProvider;
 use Composer\InstalledVersions;
+use Closure;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 class PluginService {
 
@@ -284,6 +286,216 @@ class PluginService {
             return "Installed version {$installedVersion} does not satisfy {$constraint}.";
         }
         return null;
+    }
+
+    /**
+     * 清理插件权限记录
+     * 删除未允许的权限项，并移除工作目录中没有对应目录的插件 ID，不检查插件内容。
+     * @return bool 是否清理成功
+     */
+    public static function cleanUpPermissions(): bool {
+        return self::updatePermissions( function ( array $permissions ): array {
+            $allowedPermissions = config( 'plugins.permissions', [] );
+            $workPath = config( 'plugins.path.work' );
+            if ( !is_array( $allowedPermissions ) ) {
+                throw new \RuntimeException( 'Allowed plugin permissions must be an array.' );
+            }
+            if ( !is_string( $workPath ) || trim( $workPath ) === '' ) {
+                throw new \RuntimeException( 'Plugin work path is not configured.' );
+            }
+            // 只扫描工作目录的直接子目录
+            clearstatcache();
+            $existingPlugins = [];
+            if ( is_dir( $workPath ) ) {
+                foreach ( File::directories( $workPath ) as $directory ) {
+                    $existingPlugins[basename( $directory )] = true;
+                }
+            }elseif ( file_exists( $workPath ) ) {
+                throw new \RuntimeException( 'Plugin work path must be a directory.' );
+            }
+            foreach ( $permissions as $name => $pluginIds ) {
+                if ( !in_array( $name, $allowedPermissions, true ) ) {
+                    unset( $permissions[$name] );
+                    continue;
+                }
+                if ( !is_array( $pluginIds ) ) {
+                    throw new \RuntimeException( 'Permission entry must be an array.' );
+                }
+                $permissions[$name] = array_values( array_filter(
+                    $pluginIds,
+                    fn ( mixed $pluginId ): bool => is_string( $pluginId ) && isset( $existingPlugins[$pluginId] )
+                ) );
+            }
+            return $permissions;
+        }, 'Failed to clean up plugin permissions.' );
+    }
+
+    /**
+     * 移除插件的权限记录
+     * 从所有权限列表移除指定插件，保留其他插件及权限键；重复移除视为成功。
+     * @param mixed $plugin 插件实例
+     * @return bool 是否成功移除权限
+     */
+    public static function removePermissions( mixed $plugin ): bool {
+        if ( !( $plugin instanceof PluginServiceProvider ) || !is_string( $plugin->id ) || trim( $plugin->id ) === '' ) { return false; }
+        return self::updatePermissions( function ( array $permissions ) use ( $plugin ): array {
+            foreach ( $permissions as $name => $pluginIds ) {
+                if ( !is_array( $pluginIds ) ) {
+                    throw new \RuntimeException( 'Permission entry must be an array.' );
+                }
+                if ( !in_array( $plugin->id, $pluginIds, true ) ) { continue; }
+                $permissions[$name] = array_values( array_filter(
+                    $pluginIds,
+                    fn ( mixed $pluginId ): bool => $pluginId !== $plugin->id
+                ) );
+            }
+            return $permissions;
+        }, 'Failed to remove plugin permissions.' );
+    }
+
+    /**
+     * 注册插件的权限
+     * @param mixed $plugin 插件实例
+     * @return bool 返回是否成功注册权限
+     */
+    public static function registrationPermissions( mixed $plugin ): bool {
+        if ( !( $plugin instanceof PluginServiceProvider ) || !is_string( $plugin->id ) || trim( $plugin->id ) === '' ) { return false; }
+        return self::updatePermissions( function ( array $permissions ) use ( $plugin ): ?array {
+            $pluginUses = $plugin->getPermissions();
+            if ( empty( $pluginUses ) ) { return null; }
+            $allowedPermissions = config( 'plugins.permissions', [] );
+            foreach ( $pluginUses as $name ) {
+                if ( !in_array( $name, $allowedPermissions, true ) ) { continue; }
+                if ( !array_key_exists( $name, $permissions ) ) {
+                    $permissions[$name] = [];
+                }else if ( !is_array( $permissions[$name] ) ) {
+                    throw new \RuntimeException( 'Permission entry must be an array.' );
+                }
+                if ( !in_array( $plugin->id, $permissions[$name], true ) ) {
+                    $permissions[$name][] = $plugin->id;
+                }
+            }
+            return $permissions;
+        }, 'Failed to register plugin permissions.' );
+    }
+
+    /**
+     * 更新权限文件
+     * 在同一文件锁内读取与修改，并通过同目录临时文件原子保存；未改变内容时跳过写入。
+     * @param Closure $update 权限数组更新回调，返回 null 表示拒绝更新
+     * @param string $failureMessage 操作失败日志标题
+     * @return bool 是否更新成功
+     */
+    private static function updatePermissions( Closure $update, string $failureMessage ): bool {
+        $lockHandle = null; $locked = false;
+        $temporaryFile = null;
+        try {
+            $configPath = config( 'plugins.path.config' );
+            if ( !is_string( $configPath ) || trim( $configPath ) === '' ) {
+                throw new \RuntimeException( 'Plugin config path is not configured.' );
+            }
+            $configPath = rtrim( $configPath, '/\\' ).DIRECTORY_SEPARATOR;
+            File::ensureDirectoryExists( $configPath, 0755, true );
+            // 使用独立锁文件，所有权限写入入口必须使用同一把锁
+            $permissionsFile = "{$configPath}permissions.php";
+            $lockHandle = fopen( "{$permissionsFile}.lock", 'c' );
+            if ( $lockHandle === false ) {
+                throw new \RuntimeException( 'Failed to open permissions lock.' );
+            }
+            $locked = flock( $lockHandle, LOCK_EX );
+            if ( !$locked ) {
+                throw new \RuntimeException( 'Failed to acquire permissions lock.' );
+            }
+            // 获得锁后再检查文件，避免并发初始化覆盖
+            clearstatcache( true, $permissionsFile );
+            $permissions = is_file( $permissionsFile ) ? include $permissionsFile : [];
+            if ( !is_array( $permissions ) ) {
+                throw new \RuntimeException( 'Permissions file must return an array.' );
+            }
+            $updatedPermissions = $update( $permissions );
+            if ( $updatedPermissions === null ) { return false; }
+            if ( $updatedPermissions === $permissions ) { return true; }
+            $permissions = $updatedPermissions;
+            // 在同目录完整写入临时文件，再原子替换，避免读取到未写完的内容
+            $temporaryFile = tempnam( $configPath, '.permissions-' );
+            if ( $temporaryFile === false || realpath( dirname( $temporaryFile ) ) !== realpath( $configPath ) ) {
+                throw new \RuntimeException( 'Failed to create permissions temporary file.' );
+            }
+            $content = "<?php\n\nreturn ".var_export( $permissions, true ).";\n";
+            if ( File::put( $temporaryFile, $content ) !== strlen( $content ) ) {
+                throw new \RuntimeException( 'Failed to write complete permissions file.' );
+            }
+            $mode = is_file( $permissionsFile ) ? fileperms( $permissionsFile ) : ( 0666 & ~umask() );
+            if ( $mode === false || !chmod( $temporaryFile, $mode & 0777 ) ) {
+                throw new \RuntimeException( 'Failed to set permissions file mode.' );
+            }
+            if ( !rename( $temporaryFile, $permissionsFile ) ) {
+                throw new \RuntimeException( 'Failed to replace permissions file.' );
+            }
+            $temporaryFile = null;
+            if ( function_exists( 'opcache_invalidate' ) ) { opcache_invalidate( $permissionsFile, true ); }
+            return true;
+        }catch ( \Throwable $th ) {
+            Log::error( $failureMessage, [
+                'message' => $th->getMessage(),
+                'exception_type' => get_class( $th ),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+            ] );
+            return false;
+        }finally {
+            if ( is_string( $temporaryFile ) && is_file( $temporaryFile ) ) {
+                // 清理失败时的临时文件，不让清理异常影响文件锁释放
+                if ( !@unlink( $temporaryFile ) ) {
+                    Log::error( 'Failed to remove permissions temporary file.', ['file' => $temporaryFile] );
+                }
+            }
+            if ( is_resource( $lockHandle ) ) {
+                if ( $locked ) { flock( $lockHandle, LOCK_UN ); }
+                fclose( $lockHandle );
+            }
+        }
+    }
+
+    /**
+     * 执行插件钩子
+     * @param string $name 钩子名称
+     * @param array $data 传递给插件的数据
+     * @param bool $collect 是否收集所有插件的返回值
+     * @return mixed 返回最后一个插件的返回值，或者收集所有插件的返回值（如果 $collect 为 true），失败时返回初始数据或空数组
+     */
+    public static function HookPlugin( string $name, array $data = [], bool $collect = false ): mixed {
+        $errorReturn = $collect ? [] : $data;
+        try {
+            $configPath = rtrim( config( 'plugins.path.config' ), '/\\' ).DIRECTORY_SEPARATOR;
+            $permissionsFile = "{$configPath}permissions.php";
+            if ( !is_file( $permissionsFile ) || !is_readable( $permissionsFile ) ) { return $errorReturn; }
+            $permissions = include $permissionsFile;
+            if ( !is_array( $permissions ) || !array_key_exists( $name, $permissions ) || !is_array( $permissions[$name] ) ) { return $errorReturn; }
+            if ( !in_array( $name, config( 'plugins.permissions', [] ), true ) ) { return $errorReturn; }
+            $plugins = $permissions[$name];
+            $result = []; $lastData = $data;
+            foreach ( $plugins as $pluginName ) {
+                if ( !is_string( $pluginName ) ) { continue; }
+                $plugin = plugin( $pluginName );
+                if ( !( $plugin instanceof PluginServiceProvider ) ) { continue; }
+                if ( is_public( $plugin, $name ) ) {
+                    $lastData = $plugin->$name( ...$data );
+                    if ( $collect ) {
+                        $result[] = $lastData;
+                    }
+                }
+            }
+            return $collect ? $result : $lastData;
+        } catch ( \Throwable $th ) {
+            Log::error( 'Failed to execute plugin hook.', [
+                'name' => $name,
+                'message' => $th->getMessage(),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+            ] );
+            return $errorReturn;
+        }
     }
 
 }

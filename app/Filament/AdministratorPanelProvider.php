@@ -86,6 +86,8 @@ class AdministratorPanelProvider extends PanelProvider {
                 PanelsRenderHook::HEAD_END,
                 fn (): HtmlString => new HtmlString( '<link rel="stylesheet" href="'.asset( config( 'filament.assets_path' ).'/css/global.css' ).'">' )
             );
+        // 管理员面板钩子
+        \App\Services\PluginService::HookPlugin( 'ADMINISTRATOR_PANEL_HOOK', [ $panel ] );
         return $panel;
     }
 
@@ -97,6 +99,8 @@ class AdministratorPanelProvider extends PanelProvider {
         $this->loadViewsFrom( app_path( 'Filament/Views' ), 'Filament' );
         $this->loadTranslationsFrom( app_path( 'Filament/Lang' ), 'admin' );
         parent::register();
+        // 管理员面板注册钩子
+        \App\Services\PluginService::HookPlugin( 'ADMINISTRATOR_PANEL_REGISTER_HOOK' );
     }
 
 }

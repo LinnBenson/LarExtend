@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder {
      * 填充应用数据库。
      */
     public function run(): void {
-
+        // 数据库填充钩子
+        \App\Services\PluginService::HookPlugin( 'DATABASE_SEEDER_HOOK' );
     }
 
 }

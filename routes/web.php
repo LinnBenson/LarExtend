@@ -9,3 +9,6 @@ Route::get( '/', [IndexController::class, 'index'] )->name( 'index' );
 if ( config( 'app.debug' ) ) {
     Route::any( '/debug', [IndexController::class, 'debug'] )->name( 'index.debug' );
 }
+
+// WEB 路由注册
+\App\Services\PluginService::HookPlugin( 'WEB_ROUTE_REGISTRATION' );
