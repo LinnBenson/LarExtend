@@ -29,4 +29,10 @@ class ListAdminUsers extends ListRecords {
     public function boot(): void {
         abort_unless( AdminUserResource::canViewAny(), 403 );
     }
+
+    /**
+     * 获取面包屑导航。
+     * @return array<string> 面包屑导航
+     */
+    public function getBreadcrumbs(): array { return [__( 'admin::frame.groups.admin' ), __( 'admin::AdminControl.AdminUsers.title' )]; }
 }
