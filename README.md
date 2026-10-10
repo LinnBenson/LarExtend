@@ -121,11 +121,19 @@ location / {
     "author": "插件作者", // [必需] 插件作者信息
     "description": "插件描述", // [必需] 插件描述信息
     "source": "插件来源地址", // [可选] market|null|下载直链
-    "rely_plugins": [], // [可选] 依赖的其他插件
-    "rely_composers": [] // [可选] 依赖的 Composer 包
+    "rely_plugins": {}, // [可选] 依赖的其他插件
+    "rely_composers": { "laravel/framework": ">=12.0" } // [可选] 依赖的 Composer 包
   }
   ```
 - 插件返回类实例可创建 `boot` 公开方法，用于在插件加载后执行初始化逻辑，如果该方法返回 `false`，插件将被视为加载失败。
+
+## 插件服务提供者 [app/Providers/PluginServiceProvider.php]
+- 插件 ID
+  - `$this->id` [string]
+- 插件基本路径
+  - `$this->base` [string]
+- 插件包信息
+  - `$this->package` [array]
 
 ## 插件服务 [app/Services/PluginService.php]
 - 获取插件实例
@@ -137,7 +145,3 @@ location / {
 - 插件基础错误检查
   - `PluginService::checkBaseErrors( [string]插件基础路径 )`
   - return [array]返回检测到的错误列表
-### 插件依赖版本检查
-- `package.json` 的 `rely_plugins` 使用插件 ID 为键，`rely_composers` 使用 Composer 包名为键，值为版本要求字符串。
-- 支持 `*`、精确版本和单个比较条件，例如 `>=1.0.0`、`<2.0.0`、`!=1.2.0`；不支持 `^`、`~`、版本区间或复合条件，不支持的约束会返回错误。
-- 插件依赖检查工作目录中的入口文件、包信息和版本，不执行依赖插件，不递归检查传递依赖；Composer 依赖读取实际安装版本，无法确定版本的包只允许使用 `*`。
