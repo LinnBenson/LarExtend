@@ -1,6 +1,28 @@
 <?php
 
 return [
+    'LogInformation' => [
+        'title' => '日志记录',
+        'list_heading' => '日志列表',
+        'list_description' => '包含 storage/logs 下所有层级的日志文件。',
+        'empty_list' => '暂无日志文件',
+        'content_heading' => '日志内容',
+        'content_description' => '显示当前日志最后 200 行，最多读取 2MB 内容。',
+        'select_file' => '请选择日志文件',
+        'delete_file' => '删除 :file',
+        'refresh' => '刷新日志',
+        'invalid_file' => '日志文件不存在或路径不合法。',
+        'list_failed' => '日志目录读取失败，请检查目录权限。',
+        'read_failed' => '日志文件读取失败，请检查文件权限。',
+        'delete_failed' => '日志文件删除失败，请检查文件权限。',
+        'deleted' => '日志文件已删除',
+        'confirm_heading' => '删除日志文件 :file？',
+        'confirm_description' => '此操作无法撤销，请确认是否继续。',
+        'confirm_delete' => '确认删除',
+        'cancel' => '取消',
+        'empty_content' => '日志文件为空。',
+        'truncated' => '单行日志内容过大，已截取末尾 2MB。',
+    ],
     'Readme' => [
         'title' => 'README.md',
         'heading' => 'README.md',

@@ -1,6 +1,28 @@
 <?php
 
 return [
+    'LogInformation' => [
+        'title' => 'Log records',
+        'list_heading' => 'Log files',
+        'list_description' => 'Includes log files in storage/logs and its subdirectories.',
+        'empty_list' => 'No log files found',
+        'content_heading' => 'Log content',
+        'content_description' => 'Displays the last 200 lines, reading at most 2MB.',
+        'select_file' => 'Select a log file',
+        'delete_file' => 'Delete :file',
+        'refresh' => 'Refresh logs',
+        'invalid_file' => 'The log file is missing or its path is invalid.',
+        'list_failed' => 'Unable to list logs. Please check directory permissions.',
+        'read_failed' => 'Unable to read the log file. Please check its permissions.',
+        'delete_failed' => 'Unable to delete the log file. Please check its permissions.',
+        'deleted' => 'Log file deleted',
+        'confirm_heading' => 'Delete log file :file?',
+        'confirm_description' => 'This action cannot be undone. Do you want to continue?',
+        'confirm_delete' => 'Confirm deletion',
+        'cancel' => 'Cancel',
+        'empty_content' => 'The log file is empty.',
+        'truncated' => 'A log line is too large. Only the last 2MB is displayed.',
+    ],
     'Readme' => [
         'title' => 'README.md',
         'heading' => 'README.md',

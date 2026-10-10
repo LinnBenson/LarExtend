@@ -2,8 +2,8 @@
 return [
     'levels' => [
         'ordinary' => '一般账户',
-        'service' => '客服人员',
         'agent' => '代理',
+        'service' => '服务人员',
         'manage' => '管理员',
         'administrator' => '超级管理员'
     ],

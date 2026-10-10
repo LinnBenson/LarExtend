@@ -98,3 +98,17 @@ location / {
 - 获取管理员等级键名
   - `AdminTool::levelName( [int]管理员等级 )`
   - return [string]等级名称，低于所有门槛或无有效配置时返回空字符串
+
+## 后台日志文件服务 [app/Filament/Resources/DeveloperCenter/LogInformation/LogFileService.php]
+- 获取日志文件列表
+  - `$service->getLogFiles()`
+  - 递归列出 `storage/logs` 中的普通文件，排除隐藏路径和符号链接，按修改时间倒序排列
+  - return [array]包含文件名、相对路径、大小和修改时间的列表
+- 解析日志文件路径
+  - `$service->resolveLogPath( [string]相对路径 )`
+  - 仅允许访问 `storage/logs` 内的普通文件，拒绝路径穿越、隐藏路径和符号链接
+  - return [string|null]安全的绝对路径，无效路径返回 null
+- 读取日志尾部
+  - `$service->readLastLines( [string]已校验的绝对路径 )`
+  - 返回最后 200 行，最多读取 2MB，并修复非法 UTF-8 字节；读取失败时抛出异常
+  - return [string]日志尾部内容

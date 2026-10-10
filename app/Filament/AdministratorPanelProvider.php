@@ -24,6 +24,7 @@ use App\Filament\Resources\Dashboard\Login\Login;
 use App\Filament\Resources\DeveloperCenter\FilamentIcons\FilamentIcons;
 use App\Filament\Resources\DeveloperCenter\RouteInformation\RouteInformation;
 use App\Filament\Resources\DeveloperCenter\Readme\Readme;
+use App\Filament\Resources\DeveloperCenter\LogInformation\LogInformation;
 
 /**
  * Filament 后台面板服务提供器。
@@ -56,6 +57,7 @@ class AdministratorPanelProvider extends PanelProvider {
                 FilamentIcons::class,
                 RouteInformation::class,
                 Readme::class,
+                LogInformation::class,
             ])
             ->navigationGroups( array_map(
                 static fn ( string $group ): string => __( $group ),
