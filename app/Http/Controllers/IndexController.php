@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 class IndexController extends Controller {
 
     /**
+     * 主页面接口
+     * @return string
+     */
+    public function index(): string {
+        return "Hello World!";
+    }
+
+    /**
      * 前端调试工具接口
      * @return mixed
      */
