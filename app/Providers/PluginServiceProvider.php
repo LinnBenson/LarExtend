@@ -13,4 +13,7 @@ class PluginServiceProvider {
     // 插件包信息
     public ?array $package = null;
 
+    // 插件配置缓存
+    private array $config = [];
+
 }
