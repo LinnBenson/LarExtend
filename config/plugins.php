@@ -1,6 +1,6 @@
 <?php
 return [
-    // 允许启用插件
+    // 允许使用插件
     'enable' => true,
     // 插件相关路径配置
     'path' => [
@@ -17,6 +17,7 @@ return [
     ],
     // 保留的插件 ID 列表
     'reserve' => [
-        'Permissions', // 用于设定插件权限
+        'plugin', 'plugins', 'package', 'packages',
+        'permissions', // 用于设定插件权限
     ],
 ];
