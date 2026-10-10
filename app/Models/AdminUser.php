@@ -22,8 +22,8 @@ class AdminUser extends Authenticatable implements FilamentUser, HasAvatar {
      */
     public const LEVELS = [
         'ordinary' => 1,
-        'service' => 1000,
-        'agent' => 10000,
+        'agent' => 1000,
+        'service' => 10000,
         'manage' => 90000,
         'administrator' => 99990
     ];
@@ -104,7 +104,7 @@ class AdminUser extends Authenticatable implements FilamentUser, HasAvatar {
      * @return bool 是否允许访问
      */
     public function canManage(): bool {
-        $minimumLevel = self::LEVELS['manage'];
+        $minimumLevel = self::LEVELS['service'];
         if ( !is_int( $minimumLevel ) || $minimumLevel < 1 ) { return false; }
         return $this->status === true && $this->level >= $minimumLevel;
     }

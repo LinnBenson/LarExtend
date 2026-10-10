@@ -6,7 +6,11 @@ PHP 8.2.28 + Nginx 1.28.0 + MySQL 5.7.44 + Redis 7.4.2 + Node.js 24.4.1
 框架版本: Laravel 12.0
 
 ### 开发规范
-- 前端 Blade 模板文件在 `resources/views` 下，前端静态文件需要放在 `public/assets` 的对应目录下。
+- 前台 Blade 模板文件在 `resources/views` 下，前端静态文件需要放在 `public/assets` 的对应目录下；管理员后台 Blade 模板遵循下面的后台约定。
+- 管理员后台 Blade 模板必须放在 `app/Filament/Views` 下，按现有模块和页面目录组织，例如 `app/Filament/Views/DeveloperCenter/Readme/readme.blade.php`，不要放到 `resources/views` 下。
+- 管理员后台视图使用已注册的 `Filament::` 命名空间引用，例如 `Filament::DeveloperCenter.Readme.readme`。
+- 管理员后台页面专用 CSS 必须写在对应 Blade 模板的 `<style>` 标签内，不要为单个页面在 `public/assets/filament/css` 下新增独立 CSS 文件；已有公共样式继续复用。
+- 后台页面结构和写法可以参考 `app/Filament/Resources/AdminControl/AdminUsers` 这个页面。
 - 如果是开发 resources 目录下的 Nodejs/Vite 项目，你同样需要阅读和遵守对应 Nodejs/Vite 项目根目录中可能存在的 AGENTS.md 文件。
 - 除非我明确你可以修改我的代码，否则将不要直接修改代码，将修改建议以评论或说明的形式提供。
 - 如果你修改了我的文件，请在回复时说明你修改了哪一些文件。

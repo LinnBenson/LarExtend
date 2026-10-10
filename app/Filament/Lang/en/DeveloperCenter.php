@@ -1,6 +1,15 @@
 <?php
 
 return [
+    'Readme' => [
+        'title' => 'README.md',
+        'heading' => 'README.md',
+        'description' => 'Read installation instructions and development documentation from the current project README.md.',
+        'file' => 'File: :file',
+        'modified' => 'Last modified: :time',
+        'unavailable' => 'The project README.md is missing or unreadable.',
+        'failed' => 'Unable to read or parse README.md. Please check its permissions and content.',
+    ],
     'FilamentIcons' => [
         'title' => 'Filament Icons',
         'heading' => 'Filament Heroicon',

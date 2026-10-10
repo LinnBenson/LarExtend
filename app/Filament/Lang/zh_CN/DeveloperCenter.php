@@ -1,6 +1,15 @@
 <?php
 
 return [
+    'Readme' => [
+        'title' => 'README.md',
+        'heading' => 'README.md',
+        'description' => '动态读取当前项目根目录 README.md，展示安装说明和开发文档。',
+        'file' => '文件：:file',
+        'modified' => '最后修改：:time',
+        'unavailable' => '根目录 README.md 不存在或无法读取。',
+        'failed' => 'README.md 读取或解析失败，请检查文件权限和内容格式。',
+    ],
     'FilamentIcons' => [
         'title' => 'Filament 图标库',
         'heading' => 'Filament Heroicon',

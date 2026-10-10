@@ -23,7 +23,7 @@ class FilamentIcons extends Page {
 
     protected static ?string $slug = 'developer-center/filament-icons';
 
-    protected static ?int $navigationSort = 20;
+    protected static ?int $navigationSort = 30;
 
     protected string $view = 'Filament::DeveloperCenter.FilamentIcons.filament-icons';
 

@@ -29,7 +29,7 @@ class RouteInformation extends Page {
 
     protected static ?string $slug = 'developer-center/routes';
 
-    protected static ?int $navigationSort = 11;
+    protected static ?int $navigationSort = 20;
 
     protected string $view = 'Filament::DeveloperCenter.RouteInformation.route-information';
 

@@ -23,6 +23,7 @@ use Illuminate\Support\HtmlString;
 use App\Filament\Resources\Dashboard\Login\Login;
 use App\Filament\Resources\DeveloperCenter\FilamentIcons\FilamentIcons;
 use App\Filament\Resources\DeveloperCenter\RouteInformation\RouteInformation;
+use App\Filament\Resources\DeveloperCenter\Readme\Readme;
 
 /**
  * Filament 后台面板服务提供器。
@@ -44,7 +45,7 @@ class AdministratorPanelProvider extends PanelProvider {
             ->authGuard( 'admin' )
             ->login( Login::class )
             ->databaseNotifications()
-            ->databaseNotificationsPolling( '0s' )
+            ->databaseNotificationsPolling( '15s' )
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -54,6 +55,7 @@ class AdministratorPanelProvider extends PanelProvider {
                 Dashboard::class,
                 FilamentIcons::class,
                 RouteInformation::class,
+                Readme::class,
             ])
             ->navigationGroups( array_map(
                 static fn ( string $group ): string => __( $group ),
