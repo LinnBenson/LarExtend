@@ -1,0 +1,10 @@
+{
+    "name": "Example Plugin",
+    "version": "1.0.0",
+    "author": "LarExtend",
+    "description": "This is a sample plugin for demonstration purposes.",
+    "rely_plugins": {},
+    "rely_composers": {
+        "laravel/framework": ">=12.0"
+    }
+}

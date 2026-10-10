@@ -13,6 +13,7 @@ class PluginService {
      * @var array 插件缓存信息，键为插件的哈希值，值为插件实例
      */
     public static array $cache = [];
+
     /**
      * 正在加载的插件，用于防止循环加载插件
      * @var array 正在加载的插件列表，键为插件的哈希值，值为 true
@@ -25,6 +26,7 @@ class PluginService {
      * @return PluginServiceProvider|null
      */
     public static function getPluginInstance( string $base ): ?PluginServiceProvider {
+        if ( config( 'plugins.enable' ) === false ) { return null; }
         // 路径检查
         if ( trim( $base ) === '' ) { return null; }
         $resolvedBase = realpath( $base );
