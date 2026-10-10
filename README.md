@@ -99,16 +99,23 @@ location / {
   - `AdminTool::levelName( [int]管理员等级 )`
   - return [string]等级名称，低于所有门槛或无有效配置时返回空字符串
 
-## 后台日志文件服务 [app/Filament/Resources/DeveloperCenter/LogInformation/LogFileService.php]
-- 获取日志文件列表
-  - `$service->getLogFiles()`
-  - 递归列出 `storage/logs` 中的普通文件，排除隐藏路径和符号链接，按修改时间倒序排列
-  - return [array]包含文件名、相对路径、大小和修改时间的列表
-- 解析日志文件路径
-  - `$service->resolveLogPath( [string]相对路径 )`
-  - 仅允许访问 `storage/logs` 内的普通文件，拒绝路径穿越、隐藏路径和符号链接
-  - return [string|null]安全的绝对路径，无效路径返回 null
-- 读取日志尾部
-  - `$service->readLastLines( [string]已校验的绝对路径 )`
-  - 返回最后 200 行，最多读取 2MB，并修复非法 UTF-8 字节；读取失败时抛出异常
-  - return [string]日志尾部内容
+# 插件系统设计
+
+## 插件基本目录结构
+- PluginId // 插件的唯一标识符目录名
+  - index.php // [必需] 插件的入口文件
+  - config.php // [可选] 插件的配置文件
+  - package.json // [必需] 插件的包信息文件
+
+## 插件设计说明
+- `index.php` 为插件必需的主入口文件，此文件需要返回一个继承 `app\Providers\PluginServiceProvider` 的匿名类实例
+- `config.php` 为插件可选的配置文件，用于定义插件的配置信息，返回一个数组。
+- `package.json` 为插件必需的包信息文件，包含插件的基本信息，示例如下:
+  ```json
+  {
+    "name": "插件名称", // [必需] 插件名称
+    "version": "插件版本", // [必需] 插件版本信息
+    "author": "插件作者", // [必需] 插件作者信息
+    "source": "插件来源地址", // [可选] market|null|下载直链
+  }
+  ```
