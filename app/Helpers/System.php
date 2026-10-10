@@ -1,4 +1,8 @@
 <?php
+
+use App\Services\PluginService;
+use App\Providers\PluginServiceProvider;
+
 if ( !function_exists( 'echoJson' ) ) {
     /**
      * 输出 JSON 响应
@@ -59,5 +63,17 @@ if ( !function_exists( 'getDeviceType' ) ) {
         if ( str_contains( $ua, 'macintosh' ) || str_contains( $ua, 'mac os x' ) ) { return 'Mac'; }
         if ( str_contains( $ua, 'linux' ) ) { return 'Linux'; }
         return 'Other';
+    }
+}
+if ( !function_exists( 'plugin' ) ) {
+    /**
+     * 获取插件实例
+     * @param string $pluginId 插件唯一标识符
+     * @return PluginServiceProvider|null 插件实例，插件不存在或加载失败返回 null
+     */
+    function plugin( string $pluginId ): ?PluginServiceProvider {
+        if ( preg_match( '/\A[a-zA-Z][a-zA-Z0-9_-]*\z/', $pluginId ) !== 1 ) { return null; }
+        $workPath = rtrim( config( 'plugins.path.work' ), '/\\' ).DIRECTORY_SEPARATOR;
+        return PluginService::getPluginInstance( "{$workPath}{$pluginId}" );
     }
 }
