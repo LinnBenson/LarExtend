@@ -134,6 +134,9 @@ location / {
   - `$this->base` [string]
 - 插件包信息
   - `$this->package` [array]
+- 获取插件配置
+  - `$this->config( [string]配置项键名 = '' , [mixed]默认值 = null )`
+  - return [mixed]配置值，如果未传入键名则返回整个配置数组
 
 ## 插件服务 [app/Services/PluginService.php]
 - 获取插件实例
