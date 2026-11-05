@@ -7,11 +7,15 @@ use LarExtend\Commands\InstallCommand;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use LarExtend\Exceptions\ValidationExceptionHandler;
+use LarExtend\Middlewares\WebMiddleware;
+use LarExtend\Middlewares\ApiMiddleware;
 
 /**
  * 基础支持提供者
@@ -22,6 +26,15 @@ class SupportProvider extends ServiceProvider {
      * @return void
      */
     public function boot(): void {
+        // 通过 Kernel 注册，确保重新同步路由中间件组时保留这些中间件。
+        if ( config( 'lar.middleware.enabled', false ) ) {
+            $this->callAfterResolving( HttpKernelContract::class, function ( HttpKernel $kernel ): void {
+                $kernel->appendMiddlewareToGroup( 'web', WebMiddleware::class );
+                $kernel->appendMiddlewareToGroup( 'api', \Illuminate\Cookie\Middleware\EncryptCookies::class );
+                $kernel->appendMiddlewareToGroup( 'api', \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class );
+                $kernel->appendMiddlewareToGroup( 'api', ApiMiddleware::class );
+            });
+        }
         // 注册模型与策略映射
         foreach ( config( 'lar.admin.policies', [] ) as $model => $policy ) {
             Gate::policy( $model, $policy );

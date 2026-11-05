@@ -387,4 +387,6 @@ location / {
   SCHEDULE_REGISTRATION // 插件定时任务注册，忽略返回值
   // 请求接管插件更新，返回 [ 'link' => string, 'method' => string, 'headers' => array, 'data' => array ]；返回字符串则显示为错误信息并中止更新
   REQUEST_TO_TAKE_OVER_UPDATES( string $id, array $package, string $link, string $method, array $headers, array $data )
+  API_MIDDLEWARE_HOOK( \Illuminate\Http\Request $request ) // API 中间件钩子，忽略返回值
+  WEB_MIDDLEWARE_HOOK( \Illuminate\Http\Request $request ) // WEB 中间件钩子，忽略返回值
   ```

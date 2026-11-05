@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'enabled' => [
+        'middleware' => (bool) env( 'ENABLE_EXTENSION_MIDDLEWARE', false ),
+    ],
     'exceptions' => [
         'api' => 'echoRequest',
         'validation' => 'echoRequest'
@@ -46,7 +49,11 @@ return [
             // 插件定时任务注册
             'SCHEDULE_REGISTRATION',
             // 请求接管插件更新
-            'REQUEST_TO_TAKE_OVER_UPDATES'
+            'REQUEST_TO_TAKE_OVER_UPDATES',
+            // API 中间件钩子
+            'API_MIDDLEWARE_HOOK',
+            // WEB 中间件钩子
+            'WEB_MIDDLEWARE_HOOK'
         ]
     ],
     'files' => [
