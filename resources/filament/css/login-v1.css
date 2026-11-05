@@ -1,0 +1,169 @@
+/* 全屏工作台与主题变量 */
+.fi-simple-layout:has(.login-v1) {
+    --login-v1-bg: var(--gray-50);
+    --login-v1-surface: var(--gray-100);
+    --login-v1-ink: var(--gray-950);
+    --login-v1-muted: var(--gray-600);
+    --login-v1-accent: var(--primary-600);
+    --login-v1-line: color-mix(in srgb, var(--gray-500) 24%, transparent);
+    --login-v1-grid: color-mix(in srgb, var(--gray-500) 8%, transparent);
+    --login-v1-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    min-height: 100svh;
+    background: var(--login-v1-bg);
+    color: var(--login-v1-ink);
+}
+.dark .fi-simple-layout:has(.login-v1) {
+    --login-v1-bg: var(--gray-950);
+    --login-v1-surface: var(--gray-900);
+    --login-v1-ink: var(--gray-100);
+    --login-v1-muted: var(--gray-400);
+    --login-v1-accent: var(--primary-400);
+    --login-v1-line: color-mix(in srgb, var(--gray-400) 24%, transparent);
+    --login-v1-grid: color-mix(in srgb, var(--gray-400) 7%, transparent);
+}
+.fi-simple-layout:has(.login-v1) .fi-simple-main-ctn { padding: 0; }
+.fi-simple-layout:has(.login-v1) .fi-simple-main {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+.fi-simple-layout:has(.login-v1) .fi-simple-page-content { gap: 0; }
+.login-v1 {
+    display: flex;
+    min-height: 100svh;
+    padding: 0 clamp(1.25rem, 5vw, 6rem);
+    background-image: linear-gradient(var(--login-v1-grid) 1px, transparent 1px), linear-gradient(90deg, var(--login-v1-grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+    flex-direction: column;
+}
+.login-v1 .login-v1-topbar,
+.login-v1 .login-v1-footer {
+    display: flex;
+    padding: 1.5rem 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.login-v1 .login-v1-topbar { min-height: 6rem; border-bottom: 1px solid var(--login-v1-line); }
+.login-v1 .login-v1-brand {
+    display: flex;
+    min-width: 0;
+    font-family: var(--login-v1-mono);
+    font-size: 1.2rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    align-items: center;
+    gap: 0.75rem;
+}
+.login-v1 .login-v1-brand svg { width: 1.75rem; height: 1.75rem; color: var(--login-v1-accent); flex: 0 0 auto; }
+.login-v1 .login-v1-theme { padding: 0.2rem; background: var(--login-v1-surface); border: 1px solid var(--login-v1-line); flex: 0 0 auto; }
+.login-v1 .login-v1-theme .fi-theme-switcher-btn { width: 2.5rem; height: 2.5rem; }
+.login-v1 .login-v1-theme .fi-theme-switcher-btn:not(.fi-active) { color: var(--login-v1-muted); }
+.login-v1 .login-v1-theme .fi-theme-switcher-btn.fi-active { background: color-mix(in srgb, var(--login-v1-accent) 12%, transparent); color: var(--login-v1-accent); }
+.login-v1 .login-v1-workspace {
+    display: grid;
+    width: min(100%, 76rem);
+    margin: auto;
+    padding: 4rem 0;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(3rem, 8vw, 9rem);
+}
+.login-v1 .login-v1-eyebrow {
+    color: var(--login-v1-accent);
+    font-family: var(--login-v1-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+/* 纯 CSS 轨道图形，作为品牌区的视觉中心 */
+.login-v1 .login-v1-visual { min-width: 0; animation: login-v1-enter 700ms ease-out both; }
+.login-v1 .login-v1-orbit {
+    display: grid;
+    width: min(100%, 27rem);
+    margin: 2rem auto;
+    aspect-ratio: 1;
+    place-items: center;
+    position: relative;
+}
+.login-v1 .login-v1-axis {
+    background: linear-gradient(transparent 49.8%, var(--login-v1-line) 50%, transparent 50.2%), linear-gradient(90deg, transparent 49.8%, var(--login-v1-line) 50%, transparent 50.2%);
+    position: absolute;
+    inset: 0;
+}
+.login-v1 .login-v1-ring { border: 1px solid var(--login-v1-line); border-radius: 50%; position: absolute; }
+.login-v1 .login-v1-ring-outer { border-style: dashed; inset: 8%; animation: login-v1-orbit 90s linear infinite; }
+.login-v1 .login-v1-ring-inner { border-color: var(--login-v1-accent) var(--login-v1-line) var(--login-v1-line); inset: 20%; transform: rotate(-35deg); }
+.login-v1 .login-v1-ring-inner::after {
+    width: 0.55rem;
+    height: 0.55rem;
+    background: var(--login-v1-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--login-v1-accent) 45%, transparent);
+    content: '';
+    position: absolute;
+    top: 14%;
+    right: 14%;
+}
+.login-v1 .login-v1-core {
+    display: grid;
+    width: 30%;
+    background: var(--login-v1-surface);
+    border: 1px solid color-mix(in srgb, var(--login-v1-accent) 50%, transparent);
+    color: var(--login-v1-accent);
+    aspect-ratio: 1;
+    place-items: center;
+    transform: rotate(45deg);
+}
+.login-v1 .login-v1-core svg { width: 45%; height: 45%; transform: rotate(-45deg); }
+.login-v1 .login-v1-coordinate { padding: 0.4rem; background: var(--login-v1-bg); color: var(--login-v1-muted); font-family: var(--login-v1-mono); font-size: 0.65rem; position: absolute; }
+.login-v1 .login-v1-coordinate-top { top: 6%; right: 3%; }
+.login-v1 .login-v1-coordinate-bottom { bottom: 8%; left: 10%; }
+.login-v1 .login-v1-caption h2 { font-size: clamp(1.6rem, 3vw, 2.5rem); font-weight: 600; line-height: 1.3; letter-spacing: -0.04em; }
+.login-v1 .login-v1-caption p { margin-top: 0.85rem; color: var(--login-v1-muted); font-size: 0.875rem; line-height: 1.8; }
+
+/* 认证终端保留原生表单焦点、验证错误和加载状态 */
+.login-v1 .login-v1-entry { min-width: 0; background: var(--login-v1-bg); border: 1px solid var(--login-v1-line); animation: login-v1-enter 700ms 120ms ease-out both; }
+.login-v1 .login-v1-terminal-bar { display: flex; padding: 1rem 1.5rem; background: var(--login-v1-surface); border-bottom: 1px solid var(--login-v1-line); color: var(--login-v1-muted); font-family: var(--login-v1-mono); font-size: 0.7rem; align-items: center; gap: 0.75rem; }
+.login-v1 .login-v1-terminal-mark { color: var(--login-v1-accent); }
+.login-v1 .login-v1-form { padding: clamp(1.5rem, 3vw, 3rem); }
+.login-v1 .login-v1-heading { margin-bottom: 2.25rem; }
+.login-v1 .login-v1-heading h1 { margin-top: 0.75rem; font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 600; line-height: 1.4; }
+.login-v1 .login-v1-heading h1 span { margin-left: 0.25rem; color: var(--login-v1-accent); }
+.login-v1 .login-v1-heading p { margin-top: 0.75rem; color: var(--login-v1-muted); font-size: 0.875rem; line-height: 1.8; overflow-wrap: anywhere; }
+.login-v1 .login-v1-form .fi-input-wrp { background: var(--login-v1-surface); border-radius: 0.2rem; transition: box-shadow 180ms ease; }
+.login-v1 .login-v1-form .fi-input { min-height: 3.1rem; font-family: var(--login-v1-mono); font-size: 0.95rem; }
+.login-v1 .login-v1-form .fi-btn { min-height: 3.1rem; border-radius: 0.2rem; transition: filter 180ms ease; }
+.login-v1 .login-v1-form .fi-btn:hover { filter: brightness(1.08); }
+.login-v1 .login-v1-note { display: flex; margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--login-v1-line); color: var(--login-v1-muted); font-size: 0.75rem; line-height: 1.7; align-items: center; gap: 0.5rem; }
+.login-v1 .login-v1-note svg { width: 1rem; height: 1rem; flex: 0 0 auto; }
+.login-v1 .login-v1-footer { border-top: 1px solid var(--login-v1-line); color: var(--login-v1-muted); font-family: var(--login-v1-mono); font-size: 0.65rem; line-height: 1.8; overflow-wrap: anywhere; }
+@keyframes login-v1-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes login-v1-orbit { to { transform: rotate(360deg); } }
+
+/* 移动端优先展示认证，减少动态效果时停用动画 */
+@media (max-width: 800px) {
+    .login-v1 .login-v1-topbar { min-height: 5rem; padding: 1rem 0; }
+    .login-v1 .login-v1-workspace { width: min(100%, 30rem); padding: 2.5rem 0; grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .login-v1 .login-v1-visual { display: none; }
+    .login-v1 .login-v1-footer { flex-wrap: wrap; }
+}
+@media (max-width: 380px) {
+    .login-v1 { padding: 0 1rem; }
+    .login-v1 .login-v1-brand { font-size: 1rem; gap: 0.5rem; }
+    .login-v1 .login-v1-theme .fi-theme-switcher-btn { width: 2rem; }
+    .login-v1 .login-v1-form { padding: 1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .login-v1 .login-v1-visual,
+    .login-v1 .login-v1-entry,
+    .login-v1 .login-v1-ring-outer { animation: none; }
+    .login-v1 .login-v1-form .fi-input-wrp,
+    .login-v1 .login-v1-form .fi-btn { transition: none; }
+}

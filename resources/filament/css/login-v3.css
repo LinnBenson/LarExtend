@@ -1,0 +1,150 @@
+/* 光幕主题：浅色雾面与深色玻璃 */
+.fi-simple-layout:has(.login-v3) {
+    --login-v3-bg: color-mix(in srgb, var(--primary-100) 28%, var(--gray-100));
+    --login-v3-surface: color-mix(in srgb, var(--gray-50) 88%, transparent);
+    --login-v3-input: color-mix(in srgb, var(--gray-50) 75%, transparent);
+    --login-v3-ink: var(--gray-950);
+    --login-v3-muted: var(--gray-600);
+    --login-v3-accent: var(--primary-600);
+    --login-v3-light: var(--primary-300);
+    --login-v3-line: color-mix(in srgb, var(--gray-500) 20%, transparent);
+    --login-v3-edge: color-mix(in srgb, var(--gray-50) 85%, transparent);
+    --login-v3-shadow: color-mix(in srgb, var(--primary-950) 14%, transparent);
+    min-height: 100svh;
+    background: var(--login-v3-bg);
+    color: var(--login-v3-ink);
+}
+.dark .fi-simple-layout:has(.login-v3) {
+    --login-v3-bg: color-mix(in srgb, var(--primary-950) 24%, var(--gray-950));
+    --login-v3-surface: color-mix(in srgb, var(--gray-950) 88%, transparent);
+    --login-v3-input: color-mix(in srgb, var(--gray-900) 78%, transparent);
+    --login-v3-ink: var(--gray-100);
+    --login-v3-muted: var(--gray-400);
+    --login-v3-accent: var(--primary-400);
+    --login-v3-light: var(--primary-600);
+    --login-v3-line: color-mix(in srgb, var(--gray-400) 22%, transparent);
+    --login-v3-edge: color-mix(in srgb, var(--gray-300) 22%, transparent);
+    --login-v3-shadow: color-mix(in srgb, var(--gray-950) 65%, transparent);
+}
+.fi-simple-layout:has(.login-v3) .fi-simple-main-ctn { padding: 0; }
+.fi-simple-layout:has(.login-v3) .fi-simple-main {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+.fi-simple-layout:has(.login-v3) .fi-simple-page-content { gap: 0; }
+.login-v3 {
+    display: flex;
+    min-height: 100svh;
+    padding: 0 clamp(1.25rem, 4vw, 4rem);
+    flex-direction: column;
+    position: relative;
+    isolation: isolate;
+}
+
+/* 背景独立裁切，避免影响表单与下拉内容 */
+.login-v3 .login-v3-scene { overflow: hidden; pointer-events: none; position: absolute; inset: 0; z-index: -1; }
+.login-v3 .login-v3-scene::before {
+    background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--login-v3-light) 30%, transparent), transparent 65%);
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+.login-v3 .login-v3-halo {
+    width: clamp(40rem, 90vw, 100rem);
+    border: 1px solid color-mix(in srgb, var(--login-v3-light) 65%, transparent);
+    border-radius: 50%;
+    box-shadow: inset 0 0 70px color-mix(in srgb, var(--login-v3-accent) 12%, transparent), 0 0 100px color-mix(in srgb, var(--login-v3-light) 25%, transparent);
+    aspect-ratio: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.login-v3 .login-v3-halo-back { transform: translate(-50%, -50%) rotate(-35deg) scaleY(0.64); animation: login-v3-drift 20s ease-in-out infinite; }
+.login-v3 .login-v3-halo-front { width: clamp(32rem, 70vw, 80rem); border-width: 2px; opacity: 0.65; transform: translate(-50%, -50%) rotate(35deg) scaleY(0.64); }
+.login-v3 .login-v3-horizon {
+    height: 35%;
+    background: linear-gradient(transparent, color-mix(in srgb, var(--login-v3-light) 18%, var(--login-v3-bg)));
+    border-top: 1px solid color-mix(in srgb, var(--login-v3-light) 20%, transparent);
+    filter: blur(2px);
+    position: absolute;
+    right: -10%;
+    bottom: -15%;
+    left: -10%;
+    transform: rotate(-8deg);
+}
+
+/* 顶栏与主题切换 */
+.login-v3 .login-v3-topbar { display: flex; min-height: 6rem; padding: 1.25rem 0; align-items: center; justify-content: space-between; gap: 1rem; }
+.login-v3 .login-v3-brand { display: flex; min-width: 0; font-size: 1.05rem; font-weight: 650; overflow-wrap: anywhere; align-items: center; gap: 0.65rem; }
+.login-v3 .login-v3-brand svg { width: 1.65rem; height: 1.65rem; color: var(--login-v3-accent); flex: 0 0 auto; }
+.login-v3 .login-v3-theme { padding: 0.25rem; background: var(--login-v3-surface); border: 1px solid var(--login-v3-line); border-radius: 2rem; flex: 0 0 auto; }
+.login-v3 .login-v3-theme .fi-theme-switcher-btn { width: 2.5rem; height: 2.5rem; border-radius: 50%; }
+.login-v3 .login-v3-theme .fi-theme-switcher-btn:not(.fi-active) { color: var(--login-v3-muted); }
+.login-v3 .login-v3-theme .fi-theme-switcher-btn.fi-active { background: color-mix(in srgb, var(--login-v3-accent) 12%, transparent); color: var(--login-v3-accent); }
+
+/* 半透明认证面板，保留原生焦点与验证状态 */
+.login-v3 .login-v3-center { display: grid; width: 100%; margin: auto; padding: 2rem 0 3rem; place-items: center; }
+.login-v3 .login-v3-entry {
+    width: min(100%, 29rem);
+    min-width: 0;
+    padding: clamp(1.5rem, 3.5vw, 3rem);
+    background: linear-gradient(145deg, color-mix(in srgb, var(--login-v3-edge) 20%, transparent), transparent 55%), var(--login-v3-surface);
+    border: 1px solid var(--login-v3-edge);
+    border-radius: 1.75rem;
+    box-shadow: 0 24px 80px var(--login-v3-shadow), inset 0 1px 0 var(--login-v3-edge);
+    backdrop-filter: blur(24px);
+    animation: login-v3-enter 700ms ease-out both;
+}
+.login-v3 .login-v3-heading { margin-bottom: 2rem; text-align: center; }
+.login-v3 .login-v3-emblem {
+    display: grid;
+    width: 3.75rem;
+    height: 3.75rem;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--login-v3-accent) 15%, var(--login-v3-input)), var(--login-v3-input));
+    border: 1px solid color-mix(in srgb, var(--login-v3-accent) 30%, transparent);
+    border-radius: 1.15rem;
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--login-v3-accent) 12%, transparent);
+    color: var(--login-v3-accent);
+    place-items: center;
+    transition: transform 220ms ease;
+}
+.login-v3 .login-v3-emblem svg { width: 2rem; height: 2rem; }
+.login-v3 .login-v3-entry:focus-within .login-v3-emblem { transform: translateY(-3px); }
+.login-v3 .login-v3-heading h1 { font-size: clamp(1.6rem, 3vw, 1.9rem); font-weight: 650; line-height: 1.4; letter-spacing: -0.025em; }
+.login-v3 .login-v3-heading p { margin-top: 0.65rem; color: var(--login-v3-muted); font-size: 0.875rem; line-height: 1.8; overflow-wrap: anywhere; }
+.login-v3 .login-v3-entry .fi-input-wrp { background: var(--login-v3-input); border-radius: 0.75rem; }
+.login-v3 .login-v3-entry .fi-input { min-height: 3.1rem; font-size: 1rem; }
+.login-v3 .login-v3-entry .fi-btn { min-height: 3.1rem; border-radius: 0.75rem; transition: filter 180ms ease; }
+.login-v3 .login-v3-entry .fi-btn:hover { filter: brightness(1.08); }
+.login-v3 .login-v3-note { display: flex; margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--login-v3-line); color: var(--login-v3-muted); font-size: 0.75rem; line-height: 1.8; align-items: center; justify-content: center; gap: 0.5rem; }
+.login-v3 .login-v3-note svg { width: 1rem; height: 1rem; flex: 0 0 auto; }
+.login-v3 .login-v3-footer { padding: 1.25rem 0; color: var(--login-v3-muted); font-size: 0.75rem; line-height: 1.8; text-align: center; overflow-wrap: anywhere; }
+@keyframes login-v3-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes login-v3-drift { 0%, 100% { transform: translate(-50%, -50%) rotate(-35deg) scaleY(0.64); } 50% { transform: translate(-50%, -52%) rotate(-28deg) scaleY(0.7); } }
+
+/* 小屏控制外边距，内容较高时自然滚动 */
+@media (max-width: 600px) {
+    .login-v3 .login-v3-topbar { min-height: 5rem; padding: 1rem 0; }
+    .login-v3 .login-v3-center { padding: 1.25rem 0 2rem; }
+    .login-v3 .login-v3-entry { border-radius: 1.4rem; }
+    .login-v3 .login-v3-halo { opacity: 0.45; }
+}
+@media (max-width: 380px) {
+    .login-v3 { padding: 0 1rem; }
+    .login-v3 .login-v3-brand { font-size: 0.95rem; }
+    .login-v3 .login-v3-theme .fi-theme-switcher-btn { width: 2rem; }
+    .login-v3 .login-v3-entry { padding: 1.25rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .login-v3 .login-v3-halo-back,
+    .login-v3 .login-v3-entry { animation: none; }
+    .login-v3 .login-v3-emblem,
+    .login-v3 .login-v3-entry .fi-btn { transition: none; }
+    .login-v3 .login-v3-entry:focus-within .login-v3-emblem { transform: none; }
+}

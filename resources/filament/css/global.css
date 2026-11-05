@@ -1,0 +1,85 @@
+.fi-sidebar-nav {
+    background-color: var( --color-white );
+    border-right: 1px solid var( --gray-200 );
+}
+.fi-sidebar-nav:where( .dark,.dark * ) {
+    background-color: var( --gray-900 );
+    border-right: 1px solid var( --gray-700 );
+}
+.fi-sidebar-nav .fi-sidebar-nav-groups {
+    row-gap: calc( var( --spacing ) * 3 );
+}
+
+/* 桌面端侧边栏宽度 */
+@media ( min-width: 1024px ) {
+    :root {
+        --sidebar-width: 15.75rem;
+    }
+}
+
+/* 后台弹窗仅内容区域滚动，标题和操作栏保持固定 */
+.fi-modal > .fi-modal-window-ctn {
+    overflow: hidden;
+}
+.fi-modal > .fi-modal-window-ctn > .fi-modal-window {
+    min-height: 0;
+    max-height: calc( 100dvh - 2rem );
+    overflow: hidden;
+}
+.fi-modal.fi-modal-slide-over > .fi-modal-window-ctn > .fi-modal-window,
+.fi-modal.fi-width-screen > .fi-modal-window-ctn > .fi-modal-window {
+    max-height: 100dvh;
+}
+.fi-modal > .fi-modal-window-ctn > .fi-modal-window > .fi-modal-header,
+.fi-modal > .fi-modal-window-ctn > .fi-modal-window > .fi-modal-footer {
+    padding-top: calc( var( --spacing ) * 4 );
+    padding-bottom: calc( var( --spacing ) * 4 );
+    flex-shrink: 0;
+}
+.fi-modal > .fi-modal-window-ctn > .fi-modal-window > .fi-modal-content {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+}
+
+/* 通知弹窗标题保持单行，长标题按弹窗宽度省略 */
+.lar-notification-modal > .fi-modal-header > div:not( .fi-modal-icon-ctn ) {
+    min-width: 0;
+    width: 100%;
+    padding-inline-end: 2rem;
+}
+.lar-notification-modal > .fi-modal-header .fi-modal-heading {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 多资源上传的条目间距与等比例图片预览 */
+.lar-asset-upload-multiple.fi-fo-file-upload {
+    --asset-upload-spacing: 1rem;
+}
+.lar-asset-upload-multiple.fi-fo-file-upload .filepond--list {
+    left: calc( var( --asset-upload-spacing ) - 0.5rem );
+    right: calc( var( --asset-upload-spacing ) - 0.5rem );
+}
+.lar-asset-upload-multiple.fi-fo-file-upload .filepond--list-scroller {
+    margin-top: var( --asset-upload-spacing );
+    margin-bottom: var( --asset-upload-spacing );
+}
+.lar-asset-upload-multiple.fi-fo-file-upload .filepond--item {
+    width: calc( 100% - 1rem );
+    margin: 0.25rem 0.5rem 0.5rem;
+}
+.lar-asset-upload-multiple.fi-fo-file-upload .filepond--root[data-style-panel-layout='grid'] .filepond--item {
+    width: min( 160px, calc( 100% - 1rem ) );
+}
+
+/* 手机端图片预览固定为两列 */
+@media ( max-width: 639px ) {
+    .lar-asset-upload-multiple.fi-fo-file-upload {
+        --asset-upload-spacing: 0.75rem;
+    }
+    .lar-asset-upload-multiple.fi-fo-file-upload .filepond--root[data-style-panel-layout='grid'] .filepond--item {
+        width: calc( 50% - 1rem );
+    }
+}

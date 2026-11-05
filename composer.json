@@ -1,0 +1,28 @@
+{
+    "name": "todu-io/lar-extend",
+    "description": "Laravel 插件式开发支持器",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^13.0",
+        "filament/filament": "5.11.0"
+    },
+    "autoload": {
+        "files": [
+            "src/Helpers/Common.php",
+            "src/Helpers/System.php"
+        ],
+        "psr-4": {
+            "LarExtend\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LarExtend\\Providers\\SupportProvider",
+                "LarExtend\\Providers\\AdminPanelProvider"
+            ]
+        }
+    }
+}

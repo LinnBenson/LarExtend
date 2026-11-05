@@ -1,0 +1,15 @@
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+update
+VERSION
+composer.lock
+package-lock.json
+/.codex
+/.cursor/
+/.idea
+/.vscode
+/node_modules
+/vendor
