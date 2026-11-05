@@ -27,7 +27,7 @@ class SupportProvider extends ServiceProvider {
      */
     public function boot(): void {
         // 通过 Kernel 注册，确保重新同步路由中间件组时保留这些中间件。
-        if ( config( 'lar.middleware.enabled', false ) ) {
+        if ( config( 'lar.enabled.middleware', false ) ) {
             $this->callAfterResolving( HttpKernelContract::class, function ( HttpKernel $kernel ): void {
                 $kernel->appendMiddlewareToGroup( 'web', WebMiddleware::class );
                 $kernel->appendMiddlewareToGroup( 'api', \Illuminate\Cookie\Middleware\EncryptCookies::class );
