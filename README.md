@@ -5,16 +5,18 @@
 ---
 
 ### 开始使用
-2. 安装依赖
+1. 安装依赖
    - `composer install`
-3. 复制 .env.example 为 .env 并修改配置
+2. 复制 .env.example 为 .env 并修改配置
    - `cp .env.example .env`
-4. 生成应用密钥
+3. 生成应用密钥
    - `php artisan key:generate`
-5. 运行数据库迁移
+4. 运行数据库迁移
    - `php artisan migrate`
-6. 创建公开存储目录链接
+5. 创建公开存储目录链接
    - `php artisan storage:link`
+6. 安装 LarExtend
+   - `composer require todu-io/lar-extend`
 
 ### 伪静态部署
 ```
