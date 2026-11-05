@@ -4,7 +4,6 @@
 .env.backup
 .env.production
 update
-VERSION
 composer.lock
 package-lock.json
 /.codex
