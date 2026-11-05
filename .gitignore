@@ -6,9 +6,14 @@
 update
 composer.lock
 package-lock.json
+/.agents
+/.git
 /.codex
 /.cursor/
 /.idea
+/.nova
+/.phpunit.cache
 /.vscode
+/.zed
 /node_modules
 /vendor
