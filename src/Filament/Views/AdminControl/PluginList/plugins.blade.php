@@ -138,7 +138,10 @@
         .plugin-catalog .plugin-catalog-layout > section, .plugin-catalog .plugin-catalog-card, .plugin-catalog .plugin-catalog-item-heading, .plugin-catalog .plugin-catalog-item-meta { min-width: 0; }
         .plugin-catalog .plugin-catalog-description { display: -webkit-box; flex-shrink: 0; height: 3.2em; overflow: hidden; color: var(--gray-500); font-size: .875rem; line-height: 1.6; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
         .plugin-catalog .plugin-catalog-card footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: .75rem; border-top: 1px solid var(--gray-100); color: var(--gray-500); font-size: .75rem; }
-        .plugin-catalog .plugin-catalog-empty { padding: 1.5rem; border: 1px dashed var(--gray-300); border-radius: .75rem; color: var(--gray-500); font-size: .875rem; }
+        .plugin-catalog .plugin-catalog-empty { padding: 1.5rem; border: 1px dashed var(--gray-200); border-radius: .75rem; color: var(--gray-500); font-size: .875rem; }
+        html.fi.dark .plugin-catalog .plugin-catalog-empty {
+            border-color: color-mix( in oklab, var( --color-white ) 10%, transparent );
+        }
         .plugin-catalog .plugin-catalog-error { color: var(--danger-600); }
         .dark .plugin-catalog .plugin-catalog-icon { background: var(--gray-800); color: var(--primary-400); }
         @media (max-width: 640px) { .plugin-catalog .plugin-catalog-grid { grid-template-columns: minmax(0, 1fr); } }
