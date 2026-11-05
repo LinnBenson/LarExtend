@@ -2,10 +2,13 @@
 
 return [
     'enabled' => [
+        // 是否启用扩展中间件
         'middleware' => (bool) env( 'ENABLE_EXTENSION_MIDDLEWARE', false ),
     ],
     'exceptions' => [
+        // API 异常处理工具
         'api' => 'echoRequest',
+        // 验证异常处理工具
         'validation' => 'echoRequest'
     ],
     'plugin' => [
