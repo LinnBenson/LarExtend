@@ -5,6 +5,9 @@ namespace LarExtend\Filament\Resources\AdminControl\NotificationList;
 use BackedEnum;
 use UnitEnum;
 use Filament\Resources\Resource;
+use Filament\Facades\Filament;
+use Illuminate\Database\Eloquent\Builder;
+use LarExtend\Models\AdminUser;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Illuminate\Support\HtmlString;
@@ -39,6 +42,17 @@ class NotificationResource extends Resource {
     public static function getPluralModelLabel(): string { return __( 'lar::AdminControl.Notification.title' ); }
     // 导航排序
     protected static ?int $navigationSort = 110;
+
+    /**
+     * 获取当前管理员可管理的通知
+     * @return Builder 通知查询
+     */
+    public static function getEloquentQuery(): Builder {
+        $query = parent::getEloquentQuery();
+        $user = Filament::auth()->user();
+        if ( !$user instanceof AdminUser ) { return $query->whereRaw( '1 = 0' ); }
+        return NotificationPolicy::scopeVisible( $query, $user );
+    }
 
     public static function table( Table $table ): Table { return NotificationTable::configure( $table ); }
 

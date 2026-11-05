@@ -30,7 +30,7 @@ class NotificationTable {
             TextColumn::make( 'created_at' )->label( __( 'lar::AdminControl.Notification.createdAt' ) )->dateTime( 'Y-m-d H:i:s' )->sortable(),
         ])->filters([
             SelectFilter::make( 'notifiable_type' )->label( __( 'lar::AdminControl.Notification.recipientType' ) )
-                ->options( fn (): array => Notification::query()->distinct()->orderBy( 'notifiable_type' )->pluck( 'notifiable_type' )
+                ->options( fn (): array => NotificationResource::getEloquentQuery()->distinct()->orderBy( 'notifiable_type' )->pluck( 'notifiable_type' )
                     ->mapWithKeys( fn ( string $type ): array => [$type => class_basename( $type )] )->all() ),
             TernaryFilter::make( 'read_at' )->label( __( 'lar::AdminControl.Notification.readStatus' ) )->nullable()
                 ->trueLabel( __( 'lar::AdminControl.Notification.read' ) )->falseLabel( __( 'lar::AdminControl.Notification.unread' ) ),
