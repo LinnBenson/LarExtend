@@ -41,16 +41,19 @@
                 <span class="icons-count">{{ __( 'lar::DeveloperCenter.Icons.count', ['count' => $count] ) }}</span>
             </div>
         </x-filament::section>
-        {{-- 点击图标卡片复制枚举引用 --}}
+        {{-- 枚举引用与 Blade 图标名称分别复制 --}}
         <div class="icons-grid">
             @forelse ( $icons as $icon )
-                <button type="button" class="icons-card" wire:key="icon-{{ $icon['name'] }}" x-on:click="copyIcon(@js( $icon['code'] ), (message) => $tooltip(message, { theme: $store.theme, timeout: 1500 }))" title="{{ __( 'lar::DeveloperCenter.Icons.copy', ['code' => $icon['code']] ) }}">
+                <div class="icons-card" wire:key="icon-{{ $icon['name'] }}">
                     <span class="icons-preview"><x-filament::icon :icon="$icon['svg']" /></span>
                     <strong class="icons-name">{{ $icon['name'] }}</strong>
-                    <code>{{ $icon['code'] }}</code>
-                    <code>{{ $icon['svg'] }}</code>
+                    @foreach ( ['code', 'svg'] as $reference )
+                        <button type="button" class="icons-copy" x-on:click="copyIcon(@js( $icon[$reference] ), (message) => $tooltip(message, { theme: $store.theme, timeout: 1500 }))" title="{{ __( 'lar::DeveloperCenter.Icons.copy', ['code' => $icon[$reference]] ) }}" aria-label="{{ __( 'lar::DeveloperCenter.Icons.copy', ['code' => $icon[$reference]] ) }}">
+                            <code>{{ $icon[$reference] }}</code>
+                        </button>
+                    @endforeach
                     <x-filament::badge color="gray">{{ __( 'lar::DeveloperCenter.Icons.'.$icon['style'] ) }}</x-filament::badge>
-                </button>
+                </div>
             @empty
                 <p class="icons-empty">{{ __( 'lar::DeveloperCenter.Icons.empty' ) }}</p>
             @endforelse
@@ -66,9 +69,12 @@
         .icons-page .icons-styles { display: flex; align-items: center; gap: .25rem; }
         .icons-page .icons-count { color: var(--gray-500); font-size: .875rem; white-space: nowrap; }
         .icons-page .icons-grid { display: grid; margin-top: 1.5rem; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
-        .icons-page .icons-card { display: flex; align-items: center; flex-direction: column; min-width: 0; padding: 1.25rem 1rem; border: 1px solid var(--gray-200); border-radius: .75rem; gap: .75rem; cursor: pointer; transition: border-color .15s, background-color .15s; }
+        .icons-page .icons-card { display: flex; align-items: center; flex-direction: column; min-width: 0; padding: 1.25rem 1rem; border: 1px solid var(--gray-200); border-radius: .75rem; gap: .75rem; }
         .dark .icons-page .icons-card { border-color: var(--gray-700); }
-        .icons-page .icons-card:hover, .icons-page .icons-card:focus-visible { border-color: var(--primary-500); background: color-mix(in srgb, var(--primary-500) 4%, transparent); outline: 2px solid transparent; }
+        .icons-page .icons-card .icons-copy { max-width: 100%; padding: .125rem .25rem; border-radius: .25rem; cursor: pointer; transition: background-color .15s; }
+        .icons-page .icons-card .icons-copy:hover, .icons-page .icons-card .icons-copy:focus-visible { background: color-mix(in srgb, var(--primary-500) 8%, transparent); }
+        .icons-page .icons-card .icons-copy:focus-visible { outline: 2px solid var(--primary-500); outline-offset: 2px; }
+        .icons-page .icons-card .icons-copy:hover code, .icons-page .icons-card .icons-copy:focus-visible code { color: var(--primary-500); }
         .icons-page .icons-preview { display: flex; align-items: center; justify-content: center; width: 3.5rem; height: 3.5rem; border-radius: .75rem; background: color-mix(in srgb, var(--primary-500) 12%, transparent); color: var(--primary-500); }
         .icons-page .icons-preview svg { width: 2rem; height: 2rem; }
         .icons-page .icons-name { max-width: 100%; font-size: .9375rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -77,6 +83,6 @@
         .icons-page .icons-pagination { margin-top: 1.5rem; }
         @media (max-width: 1280px) { .icons-page .icons-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         @media (max-width: 640px) { .icons-page .icons-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (prefers-reduced-motion: reduce) { .icons-page .icons-card { transition: none; } }
+        @media (prefers-reduced-motion: reduce) { .icons-page .icons-card .icons-copy { transition: none; } }
     </style>
 </x-filament-panels::page>
