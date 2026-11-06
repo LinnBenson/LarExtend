@@ -34,6 +34,8 @@ return [
         'permissionUpdated' => 'Permission updated',
         'permissionEnabled' => 'Enabled',
         'permissionDisabled' => 'Disabled',
+        'enableAllPermissions' => 'Enable all permissions',
+        'disableAllPermissions' => 'Disable all permissions',
         'enablePermission' => 'Enable permission',
         'disablePermission' => 'Disable permission',
         'permissionsNotLoaded' => 'Permission status not loaded',

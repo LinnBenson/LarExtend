@@ -484,6 +484,26 @@ class ManagePlugins extends Page {
         Notification::make()->title( __( 'lar::AdminControl.Plugin.permissionUpdated' ) )->success()->send();
     }
 
+    /**
+     * 批量设置插件权限
+     * 启用声明权限，关闭时清除系统权限列表内的全部授权。
+     * @param string $id 插件 ID
+     * @param bool $enabled 目标启用状态
+     * @return void
+     */
+    public function setAllPluginPermissions( string $id, bool $enabled ): void {
+        $plugin = $this->getMaintenancePlugin( ['id' => $id] );
+        abort_unless( isset( $plugin['package'] ), 404 );
+        $permissions = $enabled ? $plugin['package']['permissions'] : config( 'lar.plugin.permissions', [] );
+        $success = $enabled ? PluginPermissionService::add( $id, $permissions ) : PluginPermissionService::remove( $id, $permissions );
+        if ( !$success ) {
+            Notification::make()->title( __( 'lar::AdminControl.Plugin.permissionFailed' ) )->danger()->send();
+            return;
+        }
+        $this->loadPluginPermissions( $id );
+        Notification::make()->title( __( 'lar::AdminControl.Plugin.permissionUpdated' ) )->success()->send();
+    }
+
     protected function getAdminPlugin( array $arguments ): array {
         $plugin = $this->getCatalogPlugin( $arguments );
         abort_unless( $plugin['hasAdmin'] ?? false, 404 );

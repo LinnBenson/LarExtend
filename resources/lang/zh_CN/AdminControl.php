@@ -34,6 +34,8 @@ return [
         'permissionUpdated' => '权限已更新',
         'permissionEnabled' => '已启用',
         'permissionDisabled' => '未启用',
+        'enableAllPermissions' => '启用所有权限',
+        'disableAllPermissions' => '关闭所有权限',
         'enablePermission' => '启用权限',
         'disablePermission' => '关闭权限',
         'permissionsNotLoaded' => '尚未读取权限状态',

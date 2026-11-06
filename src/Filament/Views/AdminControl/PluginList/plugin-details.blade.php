@@ -58,7 +58,7 @@
                             @php( $enabled = $permissionStates[$permission] )
                             <x-filament::button size="sm" :color="$enabled ? 'danger' : 'primary'" outlined
                                 wire:click="setPluginPermission({{ \Illuminate\Support\Js::from( $plugin['id'] ) }}, {{ \Illuminate\Support\Js::from( $permission ) }}, {{ $enabled ? 'false' : 'true' }})"
-                                wire:loading.attr="disabled" wire:target="setPluginPermission,loadPluginPermissions">
+                                wire:loading.attr="disabled" wire:target="setAllPluginPermissions,setPluginPermission,loadPluginPermissions">
                                 {{ __( 'lar::AdminControl.Plugin.' . ( $enabled ? 'disablePermission' : 'enablePermission' ) ) }}
                             </x-filament::button>
                         @else
@@ -71,6 +71,20 @@
             @endforelse
         </ul>
     </section>
+        @if ( $package['permissions'] && \LarExtend\Filament\Resources\AdminControl\PluginList\PluginResource::canMaintain() )
+            <div class="plugin-details-permission-toolbar" x-show="detailTab === 'permissions'" x-cloak>
+                <x-filament::button size="sm" icon="heroicon-o-shield-check" :disabled="!$permissionsLoaded"
+                    wire:click="setAllPluginPermissions({{ \Illuminate\Support\Js::from( $plugin['id'] ) }}, true)"
+                    wire:loading.attr="disabled" wire:target="setAllPluginPermissions,setPluginPermission,loadPluginPermissions">
+                    {{ __( 'lar::AdminControl.Plugin.enableAllPermissions' ) }}
+                </x-filament::button>
+                <x-filament::button size="sm" color="danger" icon="heroicon-o-shield-exclamation" outlined :disabled="!$permissionsLoaded"
+                    wire:click="setAllPluginPermissions({{ \Illuminate\Support\Js::from( $plugin['id'] ) }}, false)"
+                    wire:loading.attr="disabled" wire:target="setAllPluginPermissions,setPluginPermission,loadPluginPermissions">
+                    {{ __( 'lar::AdminControl.Plugin.disableAllPermissions' ) }}
+                </x-filament::button>
+            </div>
+        @endif
     </div>
     @if ( $readme !== null )
         <x-filament::section heading="README.md">
@@ -99,6 +113,7 @@
     .plugin-details .plugin-details-meta > div { display: grid; align-content: start; gap: .375rem; min-width: 0; }
     .plugin-details .plugin-details-meta dt { font-size: .75rem; }
     .plugin-details .plugin-details-meta dt, .plugin-details .plugin-details-description, .plugin-details .plugin-details-requirements, .plugin-details .plugin-details-permissions { color: var(--gray-500); }
+    .plugin-details .plugin-details-permission-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .75rem; padding: .875rem 1rem; border-top: 1px solid var(--gray-200); }
     .plugin-details .plugin-details-inspector { min-width: 0; overflow: hidden; border: 1px solid var(--gray-200); border-radius: .75rem; }
     .plugin-details .plugin-details-inspector > .fi-tabs { justify-content: flex-start; overflow-x: auto; padding: .5rem; border-bottom: 1px solid var(--gray-200); border-radius: 0; background: var(--gray-50); box-shadow: none; }
     .plugin-details .plugin-details-section { min-width: 0; max-height: 18rem; overflow-y: auto; }
@@ -121,7 +136,7 @@
     .dark .plugin-details .plugin-details-avatar { background: var(--gray-800); color: var(--primary-400); }
     .dark .plugin-details .plugin-details-meta { background: var(--gray-800); }
     .dark .plugin-details .plugin-details-id { color: var(--gray-400); }
-    .dark .plugin-details .plugin-details-inspector, .dark .plugin-details .plugin-details-inspector > .fi-tabs, .dark .plugin-details .plugin-details-row + .plugin-details-row { border-color: var(--gray-700); }
+    .dark .plugin-details .plugin-details-permission-toolbar, .dark .plugin-details .plugin-details-inspector, .dark .plugin-details .plugin-details-inspector > .fi-tabs, .dark .plugin-details .plugin-details-row + .plugin-details-row { border-color: var(--gray-700); }
     .dark .plugin-details .plugin-details-inspector > .fi-tabs, .dark .plugin-details .plugin-details-row-icon { background: var(--gray-800); }
     .dark .plugin-details .plugin-details-row { color: var(--gray-200); }
     .dark .plugin-details .plugin-details-row-icon { color: var(--gray-400); }
