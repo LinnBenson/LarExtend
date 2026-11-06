@@ -101,6 +101,10 @@ location / {
 - 获取插件
   - `plugin( [string]:插件 ID, [bool]:是否刷新 = false )`
   - return [PluginProvider|null]插件对象或 null
+- 执行 Shell 命令
+  - `runShell( [string]Shell 命令 )`
+  - 执行 Shell 命令并合并返回标准输出和错误输出
+  - return [string|null]命令输出，无法获取输出时返回 null
 
 #### API 异常 [src/Exceptions/ApiException.php]
 - 创建 API 异常

@@ -135,3 +135,29 @@ if ( !function_exists( 'plugin' ) ) {
         return PluginLoadService::init( $workPath.$pluginId, $refresh );
     }
 }
+
+if ( !function_exists( 'runShell' ) ) {
+    /**
+     * 执行 Shell 命令
+     * @param string $command Shell 命令
+     * @return string|null 命令输出
+     */
+    function runShell( string $command ): ?string {
+        $directory = storage_path( 'framework/cache/commands' );
+        \Illuminate\Support\Facades\File::ensureDirectoryExists( $directory );
+        $cacheFile = tempnam( $directory, 'command_' );
+        if ( $cacheFile === false ) {
+            throw new \RuntimeException( 'Failed to create temporary file.' );
+        }
+        try {
+            $escapedCacheFile = escapeshellarg( $cacheFile );
+            shell_exec( "( {$command} ) > {$escapedCacheFile} 2>&1" );
+            $output = file_get_contents( $cacheFile );
+            return $output === false ? null : $output;
+        }finally {
+            if ( file_exists( $cacheFile ) && !unlink( $cacheFile ) ) {
+                throw new \RuntimeException( 'Failed to remove temporary file.' );
+            }
+        }
+    }
+}
