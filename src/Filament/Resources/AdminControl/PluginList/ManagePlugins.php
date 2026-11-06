@@ -233,6 +233,7 @@ class ManagePlugins extends Page {
         return Action::make( 'pluginAdmin' )
             ->label( __( 'lar::AdminControl.Plugin.admin' ) )
             ->icon( Heroicon::OutlinedWindow )
+            ->modalAutofocus( false )
             ->authorize( fn (): bool => PluginResource::canAccess() )
             ->modalHeading( fn ( array $arguments ): string => $this->getAdminPlugin( $arguments )['package']['name'] )
             ->modalWidth( \Filament\Support\Enums\Width::FourExtraLarge )
