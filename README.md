@@ -390,3 +390,20 @@ location / {
   API_MIDDLEWARE_HOOK( \Illuminate\Http\Request $request ) // API 中间件钩子，忽略返回值
   WEB_MIDDLEWARE_HOOK( \Illuminate\Http\Request $request ) // WEB 中间件钩子，忽略返回值
   ```
+
+#### 后台前端工具 [LarExtend/resources/filament/js/global.js]
+- 创建链式请求对象
+  - `sendRequest( url ).data( data ).success( callback ).error( callback ).post()`
+  - `header( headers )` 合并请求头；`timeout( milliseconds )` 默认 15000 毫秒，0 表示不限时
+  - `data( data )` 合并对象参数或传入 FormData；GET / HEAD 使用查询参数，其它方法发送 JSON 或表单
+  - `get()`、`post()`、`put()`、`delete()`、`patch()`、`options()`、`head()` 或 `send( method = 'GET' )` 发送请求；HEAD 无 JSON 响应时进入 error
+  - `loading( callback )` 在请求开始和结束时分别传入 true、false；同源写请求自动携带 CSRF Token
+  - `join( options )` 合并 fetch 附加配置；请求地址、方法、请求头、数据、凭据和超时由构建器管理
+  - `middleware( callback )` 接收 `{ ref, response, resource }`，在默认业务处理前返回新响应对象，返回 false 则停止处理
+  - echoRequest 的 success 将完整响应交给 success 回调；info、error、warning 消息逐条显示对应 Filament 通知
+  - HTTP 错误中的有效 echoRequest 响应同样按业务状态处理；超时、网络异常、无效响应显示英文 Request failed，再调用 error
+  - return Promise<Object|undefined> 成功响应对象；业务回调异常向调用者抛出，loading 仍会结束
+- 显示通知
+  - `unitToast( message, status = 'info' )`
+  - 支持 error、info、success、warning；消息按纯文本显示，error 对应 Filament danger
+  - return void

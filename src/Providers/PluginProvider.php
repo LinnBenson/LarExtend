@@ -198,7 +198,7 @@ return ".var_export( $diff, true ).";
      * @return void
      */
     public function setAdminRoute( callable $route, int|string $minLevel = 'manage' ): void {
-        Route::middleware( AdminMiddleware::class.":{$minLevel}" )
+        Route::middleware( ['web', AdminMiddleware::class.":{$minLevel}"] )
             ->prefix( "/".setting( 'admin.path', 'admin' )."/{$this->id}" )
             ->name( "admin.{$this->id}." )
             ->group( \Closure::fromCallable( $route ) );
