@@ -45,8 +45,8 @@ location / {
 ```
 
 ### 命令集合
-- 安装命令
-  - `php artisan lar-extend:install`
+- 迁移 LarExtend 数据文件
+  - `php artisan lar-extend:migrate`
 - 发布静态资源
   - `php artisan vendor:publish --tag=lar-extend-assets`
 

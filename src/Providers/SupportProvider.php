@@ -3,7 +3,7 @@
 namespace LarExtend\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use LarExtend\Commands\InstallCommand;
+use LarExtend\Commands\MigrateCommand;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
@@ -26,6 +26,8 @@ class SupportProvider extends ServiceProvider {
      * @return void
      */
     public function boot(): void {
+        // 添加迁移表
+        $this->loadMigrationsFrom( __DIR__.'/../Models/Migrations' );
         // 通过 Kernel 注册，确保重新同步路由中间件组时保留这些中间件。
         if ( config( 'lar.enabled.middleware', false ) ) {
             $this->callAfterResolving( HttpKernelContract::class, function ( HttpKernel $kernel ): void {
@@ -90,7 +92,7 @@ class SupportProvider extends ServiceProvider {
                 $kernel->addCommandRoutePaths( [__DIR__.'/../Routes/console.php'] );
             } );
             $this->commands( [
-                InstallCommand::class,
+                MigrateCommand::class,
             ]);
             $this->publishes( [
                 __DIR__.'/../../resources/filament' => public_path( config( 'lar.admin.asset', 'filament' ) ),
