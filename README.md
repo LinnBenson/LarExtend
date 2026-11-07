@@ -133,6 +133,10 @@ location / {
   - `$plugin->setViews( [string]视图文件夹相对路径 )`
   - 命名空间: `p.{插件 ID}`
   - return void
+- 设置插件的组件路径
+  - `$plugin->setComponents( [string]组件文件夹相对路径 )`
+  - 命名空间: `p.{插件 ID}`
+  - return void
 - 设置插件的语言包路径
   - `$plugin->setLang( [string]语言包文件夹相对路径 )`
   - 命名空间: `p.{插件 ID}`

@@ -10,6 +10,7 @@ use LarExtend\Services\PluginLoadService;
 use LarExtend\Filament\Concerns\AdminMiddleware;
 use Illuminate\Support\Facades\DB;
 use LarExtend\Services\PluginPermissionService;
+use Illuminate\Support\Facades\Blade;
 
 class PluginProvider {
     // 插件 ID
@@ -167,6 +168,15 @@ return ".var_export( $diff, true ).";
      */
     public function setViews( string $path ): void {
         View::addNamespace( "p.{$this->id}", "{$this->path}{$path}" );
+    }
+
+    /**
+     * 设置插件的组件路径
+     * @param string $path 组件文件夹相对路径
+     * @return void
+     */
+    public function setComponents( string $path ): void {
+        Blade::anonymousComponentPath( "{$this->path}{$path}", "p.{$this->id}" );
     }
 
     /**
