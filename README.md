@@ -381,7 +381,7 @@ location / {
   ```
   APP_SERVICE_REGISTER_HOOK // 应用服务注册钩子：忽略返回值，仅用于服务容器绑定；不应在此阶段注册视图、语言包命名空间或路由。
   APP_SERVICE_BOOT_HOOK // 应用服务启动钩子，忽略返回值
-  ADMINISTRATOR_PANEL_HOOK( Panel $panel ) // 管理员面板钩子，忽略返回值
+  ADMINISTRATOR_PANEL_HOOK( \Filament\Panel $panel ) // 管理员面板钩子，忽略返回值
   ADMINISTRATOR_PANEL_REGISTER_HOOK // 管理员面板注册钩子，忽略返回值
   API_ROUTE_REGISTRATION // API 路由注册，忽略返回值
   WEB_ROUTE_REGISTRATION // WEB 路由注册，忽略返回值
