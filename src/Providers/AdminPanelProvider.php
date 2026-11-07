@@ -8,8 +8,8 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
+use Filament\Support\Colors\Color;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -42,9 +42,9 @@ class AdminPanelProvider extends PanelProvider {
             ->authGuard( config( 'lar.admin.guard', 'filament' ) )
             ->databaseNotifications()
             ->databaseNotificationsPolling( '15s' )
-            ->colors([
+            ->colors(config( 'lar.admin.color', [
                 'primary' => Color::Blue,
-            ])
+            ]))
             ->discoverResources( in: app_path( 'Filament/Resources'), for: 'App\Filament\Resources' )
             ->resources(array_merge([
 

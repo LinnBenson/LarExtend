@@ -151,6 +151,9 @@ return [
     'admin' => [
         'asset' => 'filament', // 静态资源路径
         'guard' => 'filament', // 管理后台认证守卫配置
+        'color' => [
+            'primary' => \Filament\Support\Colors\Color::Blue,
+        ], // 管理后台主题颜色配置
         'navigation_groups' => [
             'lar::frame.groups.admin',
             'lar::frame.groups.user',
