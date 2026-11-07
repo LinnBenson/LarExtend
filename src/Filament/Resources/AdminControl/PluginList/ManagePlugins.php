@@ -31,6 +31,16 @@ class ManagePlugins extends Page {
     public ?string $permissionPluginId = null;
     #[\Livewire\Attributes\Locked]
     public array $permissionStates = [];
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            PluginResource::getNavigationGroup(),
+            PluginResource::getNavigationLabel(),
+        ];
+    }
 
     /**
      * 修改插件配置

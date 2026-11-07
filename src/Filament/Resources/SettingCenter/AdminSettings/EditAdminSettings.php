@@ -10,6 +10,16 @@ use LarExtend\Filament\Resources\SettingCenter\SystemSettings\EditSystemSettings
  */
 class EditAdminSettings extends EditSystemSettings {
     protected static string $resource = AdminSettingsResource::class;
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            AdminSettingsResource::getNavigationGroup(),
+            AdminSettingsResource::getNavigationLabel(),
+        ];
+    }
 
     protected function categories(): array {
         return ['admin' => __( 'lar::frame.settings.categories.admin' )];

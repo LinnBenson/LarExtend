@@ -11,6 +11,16 @@ use Filament\Support\Icons\Heroicon;
  */
 class ListAdminUser extends ListRecords {
     protected static string $resource = AdminUserResource::class;
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            AdminUserResource::getNavigationGroup(),
+            AdminUserResource::getNavigationLabel(),
+        ];
+    }
 
     protected function getHeaderActions(): array {
         return [CreateAction::make()->icon( Heroicon::OutlinedUserPlus )->url( AdminUserResource::getUrl( 'create' ) )];

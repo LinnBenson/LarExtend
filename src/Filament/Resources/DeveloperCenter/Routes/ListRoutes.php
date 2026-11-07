@@ -20,6 +20,18 @@ class ListRoutes extends Page implements HasTable {
     use InteractsWithTable;
 
     protected static string $resource = RouteResource::class;
+
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            RouteResource::getNavigationGroup(),
+            RouteResource::getNavigationLabel(),
+        ];
+    }
+
     protected string $view = 'Filament::DeveloperCenter.Routes.routes';
     protected ?Collection $routeCatalog = null;
 

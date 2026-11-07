@@ -12,6 +12,18 @@ use Filament\Support\Enums\Width;
 class EditAdminUser extends EditRecord {
     protected static string $resource = AdminUserResource::class;
     protected Width|string|null $maxContentWidth = Width::SevenExtraLarge;
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            AdminUserResource::getNavigationGroup(),
+            AdminUserResource::getUrl( 'index' ) => AdminUserResource::getNavigationLabel(),
+            $this->getRecord()->name,
+            $this->getBreadcrumb(),
+        ];
+    }
 
     protected function handleRecordUpdate( Model $record, array $data ): Model {
         return AdminUserWriter::save( $data, $record );

@@ -9,4 +9,14 @@ use Filament\Resources\Pages\ListRecords;
  */
 class ListNotifications extends ListRecords {
     protected static string $resource = NotificationResource::class;
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            NotificationResource::getNavigationGroup(),
+            NotificationResource::getNavigationLabel(),
+        ];
+    }
 }

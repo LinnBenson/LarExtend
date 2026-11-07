@@ -17,6 +17,18 @@ class ListIcons extends Page {
     use WithPagination;
 
     protected static string $resource = IconResource::class;
+
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            IconResource::getNavigationGroup(),
+            IconResource::getNavigationLabel(),
+        ];
+    }
+
     protected string $view = 'Filament::DeveloperCenter.Icons.icons';
 
     public string $search = '';

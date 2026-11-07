@@ -33,7 +33,7 @@ class ManageSettings extends ListRecords {
      */
     public function getBreadcrumbs(): array {
         return [
-            __( 'lar::frame.groups.setting' ),
+            AdminSettingsResource::getNavigationGroup(),
             AdminSettingsResource::getUrl() => __( 'lar::SettingCenter.AdminSettings.title' ),
             $this->getTitle(),
         ];

@@ -23,6 +23,16 @@ class EditSystemSettings extends Page {
     public int $formRevision = 0;
 
     protected function categories(): array { return SettingsForm::categories(); }
+    /**
+     * 获取页面面包屑
+     * @return array 面包屑列表
+     */
+    public function getBreadcrumbs(): array {
+        return [
+            SystemSettingsResource::getNavigationGroup(),
+            SystemSettingsResource::getNavigationLabel(),
+        ];
+    }
 
     public function mount(): void {
         abort_unless( static::getResource()::canAccess(), 403 );
