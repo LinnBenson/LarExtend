@@ -95,8 +95,8 @@ return new class extends Migration {
                     'key' => 'theme',
                     'value' => json_encode([
                         'Default' => [
-                            'icon' => '/favicon.ico',
-                            'logo' => '/assets/icons/logo_dark.png',
+                            'icon' => '/assets/icons/icon.png',
+                            'logo' => '/assets/icons/logo.png',
                             'img' => '/assets/images/Default.jpg',
                             'style' => '',
                             '--r0' => '237, 236, 231',
